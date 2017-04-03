@@ -1,16 +1,16 @@
-const bodyParser = require("body-parser");
-const express = require("express");
-const apiRouter = require("./api/typeform");
+var bodyParser = require("body-parser");
+var express = require("express");
+var apiRouter = require("./api/typeform");
 
-let httpApp = express();
+var httpApp = express();
 
 httpApp.use("/api", bodyParser.json());
 httpApp.use(bodyParser.urlencoded({extended: true}));
 httpApp.use("/api", apiRouter);
 
 
-let port = 9090;
+var port = 9090;
 
-let server = require("http").createServer(httpApp);
+var server = require("http").createServer(httpApp);
 server.listen(port, () => console.log(`Server started at ${port}`));
 

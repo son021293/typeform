@@ -1,9 +1,10 @@
-const express = require("express");
+var express = require("express");
 
-const apiRouter = express.Router();
+var apiRouter = express.Router();
 
 apiRouter.post("/typeform", (req, res) => {
-   // console.log(req);
+   console.log('11111111');
+   console.log(req);
    console.log('-----');
    console.log(res);
 });
