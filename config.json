@@ -1,0 +1,8 @@
+{
+  "port": 9090,
+  "sheetId": "1hfYLDg6Ejz57czHywqzBdEjp_2eCop5cLFPa7hnaw00",
+  "scopes": [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+  ]
+}
