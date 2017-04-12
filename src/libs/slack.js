@@ -10,10 +10,7 @@ export class SlackBot {
             request({
                 method: "POST",
                 url: this.webHookUrl,
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                form: JSON.stringify(message),
+                json: message,
             }, function (err, httpResponse, body) {
                 if(err) {
                     reject(err);
