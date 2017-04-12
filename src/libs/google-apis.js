@@ -42,7 +42,7 @@ export class SpreadSheet {
             valueInputOption: 'RAW',
             insertDataOption: 'INSERT_ROWS',
             resource: {
-                values: row
+                values: [row]
             }
         };
 
