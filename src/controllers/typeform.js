@@ -43,9 +43,9 @@ function getFormRule(form) {
         return sheets["B"];
     } else if (form["3"] === "Backend") {
         return sheets["C"];
-    } else if (form["18"].find(i => i === "None of the above")) {
+    } else if (form["18"].find(i => i !== "None of the above")) {
         return sheets["A"];
-    } else if (!form["18"].find(i => i === "None of the above")) {
+    } else if (form["18"].find(i => i === "None of the above")) {
         return "slack";
     }
 }
