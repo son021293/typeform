@@ -1,21 +1,77 @@
-import {parseForm} from "../libs/utils";
+import {isArray, isNumber} from "lodash";
+
+import {SpreadSheet} from "../libs/google-apis";
+import {parseForm, parseRequest} from "../libs/utils";
 import {controller, post, get, ExpressController} from "../libs/express";
 
 let submittedForms = [];
 
+const sheets = {
+    A: {
+        sheet: "'A' Issue",
+        rule: [[24, 26], 28, 34, 25, 27, 29, 30, 31, 32, 33, 19, 20, 21, "dateSubmitted", 1]
+    },
+    B: {
+        sheet: "'B' Frontend",
+        rule: [16, 17, 4, 5, "dateSubmitted", 1]
+    },
+    C: {
+        sheet: "'C' Backend",
+        rule: [16, 17, [8, 9], [10, 11, 12, 13, 14, 15], 6, 7, "dateSubmitted", 1]
+    },
+    slack: {}
+};
+
+function applySheetRule(rule, form) {
+    let row = [];
+
+    rule.forEach((questionNumber) => {
+        if(isArray(questionNumber)) {
+            row.push(questionNumber.map(q => form[q]).join(", "));
+        } else if(isNumber(questionNumber)) {
+            row.push(form[questionNumber]);
+        } else if(questionNumber === "dateSubmitted") {
+            row.push(new Date().toString());
+        }
+    });
+
+    return row;
+}
+
+function getFormRule(form) {
+    if(form["3"] === "Frontend") {
+        return sheets["B"];
+    } else if (form["3"] === "Backend") {
+        return sheets["C"];
+    } else if (form["18"].find(i => i === "None of the above")) {
+        return sheets["A"];
+    } else if (!form["18"].find(i => i === "None of the above")) {
+        return "slack";
+    }
+}
+
 @controller("/api/typeform")
 class TypeFormCtrl extends ExpressController{
-    constructor({auth, sheetId}) {
+    constructor({googleAuth, sheetId}) {
         super();
-        this.auth = auth;
-        this.sheetId = sheetId;
+        this.sheet = new SpreadSheet({auth: googleAuth, spreadsheetId: sheetId})
     }
 
     @post()
     async post(req, res){
-        console.log(req);
-        const {fields, files} = await parseForm(req);
-        submittedForms.push(fields);
+        const {fields} = await parseRequest(req);
+        const parsedForm = parseForm(JSON.parse(fields.rawRequest));
+
+        submittedForms.push(parsedForm);
+
+        const formRule = getFormRule(parsedForm);
+        if (formRule != "slack") {
+            this.sheet.insertRow({
+                range: formRule.sheet,
+                row: applySheetRule(formRule.rule, parsedForm)
+            })
+        }
+
         res.json({fields: fields});
         res.status(200).end();
     }

@@ -2,7 +2,7 @@ import google from "googleapis";
 
 const sheets = google.sheets('v4');
 
-export class Auth {
+export class GoogleAuth {
     constructor({scopes, clientKey}) {
         this.scopes = scopes;
         const {client_email, private_key} = clientKey;
