@@ -56,7 +56,14 @@ function formatMessageForSlackBot(text) {
             {
                 "title": "Development Support",
                 "fields": text.replace(/\s(\d+\.\s)/g, "\n$1").split(",\n").map(i => {
-                    const [question, answer] = i.split(":");
+                    const [question, answer] = (function (questionText) {
+                        if(questionText.indexOf("::") >= 0) {
+                            const arr = questionText.split("::");
+                            return [`${arr[0]}:`, arr[1]];
+                        } else {
+                            return questionText.split(":")
+                        }
+                    })(i);
                     return {
                         "title": question,
                         "value": answer,
