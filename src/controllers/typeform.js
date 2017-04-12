@@ -73,7 +73,7 @@ function formatMessageForSlackBot(text) {
         }
     });
 
-    const isQuestion = (q, _q) => q.title.indexOf(_q) >= 0;
+    const isQuestion = (q, _q) => q.title.indexOf(`${_q}. `) === 0;
     return {
         "attachments": [
             {
