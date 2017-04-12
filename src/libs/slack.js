@@ -16,7 +16,6 @@ export class SlackBot {
                 form: JSON.stringify(message),
             }, function (err, httpResponse, body) {
                 if(err) {
-                    console.log(err);
                     reject(err);
                 } else {
                     resolve({httpResponse, body});

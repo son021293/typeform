@@ -1,7 +1,7 @@
 {
   "port": 9090,
   "sheetId": "1hfYLDg6Ejz57czHywqzBdEjp_2eCop5cLFPa7hnaw00",
-  "webHookUrl": "https://hooks.slack.com/services/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",
+  "webHookUrl": "https://hooks.slack.com/services/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",
   "scopes": [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"
