@@ -20,7 +20,7 @@ async function initServer() {
     httpApp.use(bodyParser.json());
 
     bootstrapExpressApp(httpApp, [
-        new TypeFormCtrl({googleAuth, sheetId})
+        new TypeFormCtrl({googleAuth, sheetId, webHookUrl})
     ]);
 
     const server = http.createServer(httpApp);
