@@ -49,12 +49,10 @@ export class SpreadSheet {
         return Promise((resolve, reject) => {
             sheets.spreadsheets.values.append(request, function(err, response) {
                 if (err) {
-                    console.log(err);
+                    console.log(request);
                     reject(err);
-                    return;
                 } else {
                     resolve(response);
-                    return;
                 }
             })
         })
