@@ -33,7 +33,7 @@ export class SpreadSheet {
         this.config = {auth, spreadsheetId}
     }
 
-    insertRow({range, row}, cb) {
+    insertRow({range, row}) {
         const {auth, spreadsheetId} = this.config;
         const request = {
             auth,
@@ -46,11 +46,14 @@ export class SpreadSheet {
             }
         };
 
-        return sheets.spreadsheets.values.append(request, function(err, response) {
-            if (err) {
-                cb && cb(err);
-            }
-            cb && cb(err, response);
+        return new Promise((resolve, reject) => {
+            sheets.spreadsheets.values.append(request, function(err, response) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(response);
+                }
+            })
         })
     }
 }

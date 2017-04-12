@@ -66,14 +66,14 @@ class TypeFormCtrl extends ExpressController{
 
         const formRule = getFormRule(parsedForm);
         if (formRule != "slack") {
-            console.log(`~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`);
-            console.log(formRule.sheet);
-            console.log(applySheetRule(formRule.rule, parsedForm));
-            console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>`);
-            this.sheet.insertRow({
-                range: formRule.sheet,
-                row: applySheetRule(formRule.rule, parsedForm)
-            })
+            try {
+                const respone = await this.sheet.insertRow({
+                    range: formRule.sheet,
+                    row: applySheetRule(formRule.rule, parsedForm)
+                })
+            } catch(e) {
+                console.log(e);
+            }
         }
 
         res.json({fields: fields});
