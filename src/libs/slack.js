@@ -24,4 +24,8 @@ export class SlackBot {
             })
         })
     }
+
+    static formatMessage(message) {
+
+    }
 }

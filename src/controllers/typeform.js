@@ -50,6 +50,24 @@ function getFormRule(form) {
     }
 }
 
+function formatMessageForSlackBot(text) {
+    return {
+        "attachments": [
+            {
+                "title": "Development Support",
+                "fields": text.replace(/\s(\d+\.\s)/g, "\n$1").split(",\n").map(i => {
+                    const [question, answer] = i.split(":");
+                    return {
+                        "title": question,
+                        "value": answer,
+                        "short": false
+                    }
+                })
+            }
+        ]
+    }
+}
+
 @controller("/api/typeform")
 class TypeFormCtrl extends ExpressController{
     constructor({googleAuth, sheetId, webHookUrl}) {
@@ -77,7 +95,7 @@ class TypeFormCtrl extends ExpressController{
                 console.log(e);
             }
         } else {
-            this.slackBot.notify({text: fields.pretty});
+            this.slackBot.notify(formatMessageForSlackBot(fields.pretty));
         }
 
         res.json({fields: fields});
