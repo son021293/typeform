@@ -16,7 +16,8 @@
     "formidable": "^1.1.1",
     "google-auth-library": "^0.10.0",
     "googleapis": "^19.0.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

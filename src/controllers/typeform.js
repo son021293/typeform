@@ -1,5 +1,6 @@
 import {isArray, isNumber} from "lodash";
 
+import {SlackBot} from "../libs/slack";
 import {SpreadSheet} from "../libs/google-apis";
 import {parseForm, parseRequest} from "../libs/utils";
 import {controller, post, get, ExpressController} from "../libs/express";
@@ -18,8 +19,7 @@ const sheets = {
     C: {
         sheet: "'C' Backend",
         rule: [16, 17, [8, 9], [10, 11, 12, 13, 14, 15], 6, 7, "dateSubmitted", 1]
-    },
-    slack: {}
+    }
 };
 
 function applySheetRule(rule, form) {
@@ -52,9 +52,11 @@ function getFormRule(form) {
 
 @controller("/api/typeform")
 class TypeFormCtrl extends ExpressController{
-    constructor({googleAuth, sheetId}) {
+    constructor({googleAuth, sheetId, webHookUrl}) {
         super();
-        this.sheet = new SpreadSheet({auth: googleAuth, spreadsheetId: sheetId})
+
+        this.slackBot = new SlackBot({webHookUrl});
+        this.sheet = new SpreadSheet({auth: googleAuth, spreadsheetId: sheetId});
     }
 
     @post()
@@ -62,7 +64,7 @@ class TypeFormCtrl extends ExpressController{
         const {fields} = await parseRequest(req);
         const parsedForm = parseForm(JSON.parse(fields.rawRequest));
 
-        submittedForms.push(parsedForm);
+        submittedForms.push({...parsedForm, pretty: fields.pretty});
 
         const formRule = getFormRule(parsedForm);
         if (formRule != "slack") {
@@ -74,6 +76,8 @@ class TypeFormCtrl extends ExpressController{
             } catch(e) {
                 console.log(e);
             }
+        } else {
+            this.slackBot.notify({text: fields.pretty});
         }
 
         res.json({fields: fields});
