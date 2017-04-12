@@ -47,11 +47,14 @@ export class SpreadSheet {
         };
 
         return Promise((resolve, reject) => {
-            sheets.spreadsheets.values.append(request, (err, response) => {
+            sheets.spreadsheets.values.append(request, function(err, response) {
                 if (err) {
-                    reject(err)
+                    console.log(err);
+                    reject(err);
+                    return;
                 } else {
                     resolve(response);
+                    return;
                 }
             })
         })
