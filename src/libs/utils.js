@@ -22,17 +22,16 @@ export function parseForm({pretty, rawRequest}) {
 
     const isQuestion = (q, _q) => q.indexOf(`${_q}. `) === 0;
     const getQuestionNumber = (key) => /q\d+\_(\d+)\w+/.exec(key)[1];
+    const formatText = (text) => _.unescape(text.replace(/&#039;/g, "&#39;"));
 
     for(const key in rawData) {
         const questionNum = getQuestionNumber(key);
         const prettyQuestion = prettyQuestions.find(q => isQuestion(q, questionNum)) || "";
         parsedForm[questionNum] = {
             question: prettyQuestion.replace(`:${_.isArray(rawData[key]) ? rawData[key].join(" ") : rawData[key]}`, ""),
-            answer: _.unescape(
-                _.isArray(rawData[key])
-                    ? rawData[key].map(i => i.replace(/&#039;/g, "&#39;"))
-                    : rawData[key].replace(/&#039;/g, "&#39;")
-            )
+            answer:  _.isArray(rawData[key])
+                ? rawData[key].map(i => formatText(i))
+                : formatText(rawData[key])
         };
     }
 
