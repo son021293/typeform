@@ -107,23 +107,23 @@ class TypeFormCtrl extends ExpressController {
     @post()
     async post(req, res) {
         const {fields} = await parseRequest(req);
-        const parsedForm = parseForm(JSON.parse(fields.rawRequest));
 
-        submittedForms.push({parsedForm, pretty: fields.pretty});
+        submittedForms.push(fields);
 
-        const formRule = getFormRule(parsedForm);
-        try {
-            this.sheet.insertRow({
-                range: formRule.sheet,
-                row: applySheetRule(formRule.rule, parsedForm)
-            });
-
-            if (formRule.sheet === "'D' Urgent") {
-                this.slackBot.notify(formatMessageForSlackBot(fields.pretty));
-            }
-        } catch (e) {
-            console.log(e);
-        }
+        // const parsedForm = parseForm(fields);
+        // const formRule = getFormRule(parsedForm);
+        // try {
+        //     this.sheet.insertRow({
+        //         range: formRule.sheet,
+        //         row: applySheetRule(formRule.rule, parsedForm)
+        //     });
+        //
+        //     if (formRule.sheet === "'D' Urgent") {
+        //         this.slackBot.notify(formatMessageForSlackBot(fields.pretty));
+        //     }
+        // } catch (e) {
+        //     console.log(e);
+        // }
 
         res.json({fields: fields});
         res.status(200).end();
