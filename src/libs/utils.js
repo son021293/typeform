@@ -28,7 +28,7 @@ export function parseForm({pretty, rawRequest}) {
         const prettyQuestion = prettyQuestions.find(q => isQuestion(q, questionNum)) || "";
         parsedForm[questionNum] = {
             question: prettyQuestion.replace(`:${_.isArray(rawData[key]) ? rawData[key].join(" ") : rawData[key]}`, ""),
-            answer: _.unescape(rawData[key].replace(/&#039/g, "&#39;"))
+            answer: _.unescape(rawData[key].replace(/&#039;/g, "&#39;"))
         };
     }
 
