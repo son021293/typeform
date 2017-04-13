@@ -1,4 +1,4 @@
-import _, {isArray, isNumber} from "lodash";
+import _ from "lodash";
 
 import {SlackBot} from "../libs/slack";
 import {SpreadSheet} from "../libs/google-apis";
@@ -30,9 +30,9 @@ function applySheetRule(rule, form) {
     let row = [];
 
     rule.forEach((questionNumber) => {
-        if (isArray(questionNumber)) {
+        if (_.isArray(questionNumber)) {
             row.push(questionNumber.map(q => form[q].answer).filter(q => q.length > 0).join(", "));
-        } else if (isNumber(questionNumber)) {
+        } else if (_.isNumber(questionNumber)) {
             row.push(form[questionNumber].answer);
         } else if (questionNumber === "dateSubmitted") {
             row.push(new Date().toString());
@@ -58,11 +58,12 @@ const listQuestions = [1, [24, 26], 25, 27];
 
 function formatMessageForSlackBot(parsedForm) {
     const filterredQuestions = _.filter(parsedForm, (q, questionNum) => {
+        const _questionNum = parseInt(questionNum);
         let isTake = false;
         listQuestions.forEach(_q => {
-            if (isArray(_q) && (questionNum === _q[0] || questionNum === _q[1])) {
+            if (_.isArray(_q) && (_questionNum === _q[0] || _questionNum === _q[1])) {
                 isTake = true;
-            } else if (isNumber(_q) && questionNum === _q) {
+            } else if (_.isNumber(_q) && _questionNum === _q) {
                 isTake = true;
             }
         });
