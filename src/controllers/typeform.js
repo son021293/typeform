@@ -31,9 +31,9 @@ function applySheetRule(rule, form) {
 
     rule.forEach((questionNumber) => {
         if (isArray(questionNumber)) {
-            row.push(questionNumber.map(q => form[q]).filter(q => q.length > 0).join(", "));
+            row.push(questionNumber.map(q => form[q].answer).filter(q => q.length > 0).join(", "));
         } else if (isNumber(questionNumber)) {
-            row.push(form[questionNumber]);
+            row.push(form[questionNumber].answer);
         } else if (questionNumber === "dateSubmitted") {
             row.push(new Date().toString());
         }
