@@ -1,4 +1,4 @@
-import {omit, isArray} from "lodash";
+import _ from "lodash";
 import formidable from "formidable";
 
 export function parseRequest(request) {
@@ -18,16 +18,16 @@ export function parseRequest(request) {
 export function parseForm({pretty, rawRequest}) {
     let parsedForm = {};
     const prettyQuestions = pretty.replace(/\s(\d+\.\s)/g, "\n$1").split(",\n");
-    const rawData = omit(JSON.parse(rawRequest), ["event_id", "slug"]);
+    const rawData = _.omit(JSON.parse(rawRequest), ["event_id", "slug"]);
 
-    const isQuestion = (q, _q) => q.title.indexOf(`${_q}. `) === 0;
+    const isQuestion = (q, _q) => q.indexOf(`${_q}. `) === 0;
     const getQuestionNumber = (key) => /q\d+\_(\d+)\w+/.exec(key)[1];
 
     for(const key in rawData) {
         const questionNum = getQuestionNumber(key);
-        const prettyQuestion = prettyQuestions.find(q => isQuestion(q, questionNum));
+        const prettyQuestion = prettyQuestions.find(q => isQuestion(q, questionNum)) || "";
         parsedForm[questionNum] = {
-            question: prettyQuestion.replace(isArray(rawData[key]) ? rawData[key].join(" ") : rawData[key]),
+            question: prettyQuestion.replace(`:${_.isArray(rawData[key]) ? rawData[key].join(" ") : rawData[key]}`, ""),
             answer: rawData[key]
         };
     }

@@ -4,12 +4,11 @@ import bodyParser from "body-parser";
 
 import TypeFormCtrl from "./controllers/typeform";
 
-import {SlackBot} from "./libs/slack";
 import {GoogleAuth} from "./libs/google-apis";
 import {bootstrapExpressApp} from "./libs/express";
 
-import {port, sheetId, scopes, webHookUrl} from "../config.json";
 import {client_email, private_key} from "../client-key.json";
+import {port, sheetId, scopes, webHookUrl} from "../config.json";
 
 async function initServer() {
     const googleAuth = await new GoogleAuth({scopes, clientKey: {client_email, private_key}}).get();

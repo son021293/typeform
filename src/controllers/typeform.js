@@ -1,4 +1,4 @@
-import {isArray, isNumber} from "lodash";
+import _, {isArray, isNumber} from "lodash";
 
 import {SlackBot} from "../libs/slack";
 import {SpreadSheet} from "../libs/google-apis";
@@ -43,53 +43,42 @@ function applySheetRule(rule, form) {
 }
 
 function getFormRule(form) {
-    if (form["3"] === "Frontend") {
+    if (form["3"].answer === "Frontend") {
         return sheets["B"];
-    } else if (form["3"] === "Backend") {
+    } else if (form["3"].answer === "Backend") {
         return sheets["C"];
-    } else if (form["18"].find(i => i === "None of the above")) {
+    } else if (form["18"].answer.find(i => i === "None of the above")) {
         return sheets["A"];
-    } else if (!form["18"].find(i => i === "None of the above")) {
+    } else if (!form["18"].answer.find(i => i === "None of the above")) {
         return sheets["D"];
     }
 }
 
 const listQuestions = [1, [24, 26], 25, 27];
 
-function formatMessageForSlackBot(text) {
-    const questions = text.replace(/\s(\d+\.\s)/g, "\n$1").split(",\n").map(i => {
-        const [question, answer] = (function (questionText) {
-            if (questionText.indexOf("::") >= 0) {
-                const arr = questionText.split("::");
-                return [`${arr[0]}:`, arr[1]];
-            } else {
-                return questionText.split(":")
+function formatMessageForSlackBot(parsedForm) {
+    const filterredQuestions = _.filter(parsedForm, (q, questionNum) => {
+        let isTake = false;
+        listQuestions.forEach(_q => {
+            if (isArray(_q) && (questionNum === _q[0] || questionNum === _q[1])) {
+                isTake = true;
+            } else if (isNumber(_q) && questionNum === _q) {
+                isTake = true;
             }
-        })(i);
-        return {
-            "title": question,
-            "value": answer,
-            "short": false
-        }
-    });
+        });
 
-    const isQuestion = (q, _q) => q.title.indexOf(`${_q}. `) === 0;
+        return isTake;
+    }).map(q => ({
+        title: q.question,
+        value: q.answer,
+        short: false
+    }));
+
     return {
         "attachments": [
             {
                 "title": "Development Support",
-                "fields": questions.filter(q => {
-                    let isTake = false;
-                    listQuestions.forEach(_q => {
-                        if (isArray(_q) && (isQuestion(q, _q[0]) || isQuestion(q, _q[1]))) {
-                            isTake = true;
-                        } else if (isNumber(_q) && isQuestion(q, _q)) {
-                            isTake = true;
-                        }
-                    });
-
-                    return isTake;
-                })
+                "fields": filterredQuestions
             }
         ]
     }
@@ -110,20 +99,21 @@ class TypeFormCtrl extends ExpressController {
 
         submittedForms.push(fields);
 
-        // const parsedForm = parseForm(fields);
-        // const formRule = getFormRule(parsedForm);
-        // try {
-        //     this.sheet.insertRow({
-        //         range: formRule.sheet,
-        //         row: applySheetRule(formRule.rule, parsedForm)
-        //     });
-        //
-        //     if (formRule.sheet === "'D' Urgent") {
-        //         this.slackBot.notify(formatMessageForSlackBot(fields.pretty));
-        //     }
-        // } catch (e) {
-        //     console.log(e);
-        // }
+        const parsedForm = parseForm(fields);
+
+        const formRule = getFormRule(parsedForm);
+        try {
+            this.sheet.insertRow({
+                range: formRule.sheet,
+                row: applySheetRule(formRule.rule, parsedForm)
+            });
+
+            if (formRule.sheet === "'D' Urgent") {
+                this.slackBot.notify(formatMessageForSlackBot(parsedForm));
+            }
+        } catch (e) {
+            console.log(e);
+        }
 
         res.json({fields: fields});
         res.status(200).end();
