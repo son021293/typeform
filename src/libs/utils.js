@@ -22,7 +22,7 @@ export function parseForm({pretty, rawRequest}) {
 
     const isQuestion = (q, _q) => q.indexOf(`${_q}. `) === 0;
     const getQuestionNumber = (key) => /q\d+\_(\d+)\w+/.exec(key)[1];
-    const formatText = (text) => _.unescape(text.replace(/&#039;/g, "&#39;"));
+    const formatText = (text) => _.unescape(("" + text).replace(/&#039;/g, "&#39;"));
 
     for(const key in rawData) {
         const questionNum = getQuestionNumber(key);
