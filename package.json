@@ -17,6 +17,7 @@
     "google-auth-library": "^0.10.0",
     "googleapis": "^19.0.0",
     "lodash": "^4.17.4",
+    "moment-timezone": "^0.5.13",
     "request": "^2.81.0"
   },
   "devDependencies": {

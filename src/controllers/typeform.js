@@ -1,4 +1,5 @@
 import _ from "lodash";
+import moment from "moment-timezone";
 
 import {SlackBot} from "../libs/slack";
 import {SpreadSheet} from "../libs/google-apis";
@@ -35,7 +36,7 @@ function applySheetRule(rule, form) {
         } else if (_.isNumber(questionNumber)) {
             row.push(form[questionNumber].answer);
         } else if (questionNumber === "dateSubmitted") {
-            row.push(new Date().toString());
+            row.push(moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'));
         }
     });
 
@@ -98,7 +99,12 @@ class TypeFormCtrl extends ExpressController {
     async post(req, res) {
         const {fields} = await parseRequest(req);
 
-        submittedForms.push(fields);
+        submittedForms.push(
+            Object.assign(
+                {date: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z')},
+                _.omit(fields, ["rawRequest", "webhookURL"])
+            )
+        );
 
         const parsedForm = parseForm(fields);
 
@@ -121,7 +127,7 @@ class TypeFormCtrl extends ExpressController {
     }
 
     @get('/submitted-forms')
-    getSubmittedForms(req, res) {
+    getSubmittedForms(res) {
         res.json({forms: submittedForms});
         res.status(200).end();
     }
