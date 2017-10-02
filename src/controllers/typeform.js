@@ -99,14 +99,6 @@ class TypeFormCtrl extends ExpressController {
     async post(req, res) {
         const {fields} = await parseRequest(req);
 
-        submittedForms.push(
-            Object.assign(
-                {},
-                _.omit(fields, ["rawRequest", "webhookURL"]),
-                {date: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z')},
-            )
-        );
-
         const parsedForm = parseForm(fields);
 
         const formRule = getFormRule(parsedForm);
@@ -115,6 +107,17 @@ class TypeFormCtrl extends ExpressController {
                 range: formRule.sheet,
                 row: applySheetRule(formRule.rule, parsedForm)
             });
+
+            submittedForms.push(
+                Object.assign(
+                    {},
+                    _.omit(fields, ["rawRequest", "webhookURL"]),
+                    {
+                        date: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'),
+                        parsedForm: applySheetRule(formRule.rule, parsedForm)
+                    },
+                )
+            );
 
             if (formRule.sheet === "'D' Urgent") {
                 this.slackBot.notify(formatMessageForSlackBot(parsedForm));
