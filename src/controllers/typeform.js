@@ -103,18 +103,20 @@ class TypeFormCtrl extends ExpressController {
 
         const formRule = getFormRule(parsedForm);
         try {
-            this.sheet.insertRow({
+            const newRow = {
                 range: formRule.sheet,
                 row: applySheetRule(formRule.rule, parsedForm)
-            });
+            };
+
+            this.sheet.insertRow(newRow);
 
             submittedForms.push(
                 Object.assign(
                     {},
-                    _.omit(fields, ["rawRequest", "webhookURL"]),
+                    _.omit(fields, ["rawRequest", "webhookURL", "ip", "type", "formID", "formTitle", "username"]),
                     {
                         date: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'),
-                        parsedForm: applySheetRule(formRule.rule, parsedForm)
+                        parsedForm: newRow
                     },
                 )
             );
