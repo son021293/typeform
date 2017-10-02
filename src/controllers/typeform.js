@@ -128,8 +128,8 @@ class TypeFormCtrl extends ExpressController {
     }
 
     @get('/submitted-forms')
-    getSubmittedForms(res) {
-        res.json({forms: submittedForms});
+    getSubmittedForms(req, res) {
+        res.json(submittedForms);
         res.status(200).end();
     }
 }
