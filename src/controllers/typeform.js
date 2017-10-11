@@ -102,7 +102,7 @@ class TypeFormCtrl extends ExpressController {
         submittedForms.push(
             Object.assign(
                 {date: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z')},
-                _.omit(fields, ["rawRequest", "webhookURL"])
+                // _.omit(fields, ["rawRequest", "webhookURL"])
             )
         );
 
