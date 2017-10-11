@@ -24,6 +24,10 @@ const sheets = {
     D: {
         sheet: "'D' Urgent",
         rule: [[24, 26], 28, 34, 25, 27, 29, 30, 31, 32, 33, 19, 20, 21, "dateSubmitted", 1]
+    },
+    E: {
+        sheet: "'E' ISMs",
+        rule: ["organization", "venueName", "whichVenue", 1, "dateSubmitted"]
     }
 };
 
@@ -33,7 +37,7 @@ function applySheetRule(rule, form) {
     rule.forEach((questionNumber) => {
         if (_.isArray(questionNumber)) {
             row.push(questionNumber.map(q => form[q].answer).filter(q => q.length > 0).join(", "));
-        } else if (_.isNumber(questionNumber)) {
+        } else if (_.isNumber(questionNumber) || (_.isString(questionNumber) && questionNumber !== "dateSubmitted")) {
             row.push(form[questionNumber].answer);
         } else if (questionNumber === "dateSubmitted") {
             row.push(moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'));
@@ -44,7 +48,9 @@ function applySheetRule(rule, form) {
 }
 
 function getFormRule(form) {
-    if (form["3"].answer === "Frontend") {
+    if (form["2"].answer === "New ISM") {
+        return sheets["E"];
+    } else if (form["3"].answer === "Frontend") {
         return sheets["B"];
     } else if (form["3"].answer === "Backend") {
         return sheets["C"];
@@ -52,6 +58,8 @@ function getFormRule(form) {
         return sheets["A"];
     } else if (!form["18"].answer.find(i => i === "None of the above")) {
         return sheets["D"];
+    } else if (form["2"].answer === "New ISM") {
+        return sheets["E"];
     }
 }
 
@@ -149,3 +157,27 @@ class TypeFormCtrl extends ExpressController {
 }
 
 export default TypeFormCtrl;
+
+// const parsedForm = parseForm({
+//     "date": "10/10/2017 @ 23:10 EDT",
+//     "formID": "70936128142151",
+//     "submissionID": "3835009994173346677",
+//     "webhookURL": "http://ec2-52-221-209-208.ap-southeast-1.compute.amazonaws.com:9090/api/typeform",
+//     "ip": "180.93.7.14",
+//     "formTitle": "Development Support",
+//     "pretty": "1. Name:Britney, 2. Is this an issue, a feature idea/request, or a new ISM?:New ISM, Organization:a, Venue Name:a, Does this venue use the same ISM as another venue?:No",
+//     "username": "Josh_Groupmatics",
+//     "rawRequest": "{\"slug\":\"submit\\/70936128142151\\/\",\"q69_1Name69\":\"Britney\",\"q39_2Is\":\"New ISM\",\"q7_5Please\":\"\",\"q9_7Please\":\"\",\"q18_16Please\":\"\",\"q19_17How\":\"\",\"q22_20Name\":\"\",\"q23_21If\":\"\",\"q26_24Summarize\":\"\",\"q37_25List\":\"\",\"q27_26Summarize\":\"\",\"q36_27List\":\"\",\"q29_28What\":\"\",\"q30_29Organization\":\"\",\"q31_30Outing\":\"\",\"q32_31Group\":\"\",\"q33_32Browser\":\"\",\"q34_33Describe\":\"\",\"q35_34Is\":\"\",\"q71_organization\":\"a\",\"q72_venueName\":\"a\",\"q73_doesThis\":\"No\",\"q74_whichVenue\":\"\",\"event_id\":\"1507691791397_70936128142151_10JqY3b\",\"q12_10What\":\"\",\"q13_11What\":\"\",\"q14_12What\":\"\",\"q15_13What\":\"\",\"q16_14What\":\"\",\"q17_15What\":\"\",\"q20_18Is\":\"\",\"q21_19Was\":\"\",\"q24_22Have\":\"\",\"q25_23Please\":\"\",\"q38_3Is\":\"\",\"q40_4Did\":\"\",\"q41_6Did\":\"\",\"q42_8What\":\"\",\"q43_9What\":\"\"}",
+//     "type": "WEB"
+// });
+//
+// console.log(parsedForm);
+//
+// const formRule = getFormRule(parsedForm);
+//
+// const newRow = {
+//     range: formRule.sheet,
+//     row: applySheetRule(formRule.rule, parsedForm)
+// };
+//
+// console.log(newRow);
