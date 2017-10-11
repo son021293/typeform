@@ -106,10 +106,11 @@ class TypeFormCtrl extends ExpressController {
             )
         );
 
-        const parsedForm = parseForm(fields);
-
-        const formRule = getFormRule(parsedForm);
         try {
+            const parsedForm = parseForm(fields);
+
+            const formRule = getFormRule(parsedForm);
+
             this.sheet.insertRow({
                 range: formRule.sheet,
                 row: applySheetRule(formRule.rule, parsedForm)
