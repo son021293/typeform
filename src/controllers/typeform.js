@@ -111,10 +111,23 @@ class TypeFormCtrl extends ExpressController {
 
             const formRule = getFormRule(parsedForm);
 
-            this.sheet.insertRow({
+            const newRow = {
                 range: formRule.sheet,
                 row: applySheetRule(formRule.rule, parsedForm)
-            });
+            };
+
+            this.sheet.insertRow(newRow);
+
+            // submittedForms.push(
+            //     Object.assign(
+            //         {},
+            //         _.omit(fields, ["rawRequest", "webhookURL", "ip", "type", "formID", "formTitle", "username"]),
+            //         {
+            //             date: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'),
+            //             parsedForm: newRow
+            //         },
+            //     )
+            // );
 
             if (formRule.sheet === "'D' Urgent") {
                 this.slackBot.notify(formatMessageForSlackBot(parsedForm));
@@ -128,8 +141,8 @@ class TypeFormCtrl extends ExpressController {
     }
 
     @get('/submitted-forms')
-    getSubmittedForms(res) {
-        res.json({forms: submittedForms});
+    getSubmittedForms(req, res) {
+        res.json(submittedForms);
         res.status(200).end();
     }
 }
