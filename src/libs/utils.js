@@ -21,7 +21,7 @@ const isQuestion = (q, _q) => {
     if (result) {
         return result;
     } else {
-        return _.camelCase(q).indexOf(_q) === 0;
+        return _.camelCase(q.replace(/\W/, '')).indexOf(_q) === 0;
     }
 };
 const getQuestionNumber = (key) => {
@@ -33,22 +33,34 @@ const getQuestionNumber = (key) => {
         return /q\d+\_(\w+)/.exec(key)[1];
     }
 };
+
+function isValidQuestion(key) {
+    return /q\d+\_(.+)/.exec(key) != null
+}
+
 const formatText = (text) => _.unescape(("" + text).replace(/&#039;/g, "&#39;"));
 
 export function parseForm({pretty, rawRequest}) {
     let parsedForm = {};
-    const prettyQuestions = pretty.replace(/\s(\d+\.\s)/g, "\n$1").split(",\n");
+    const prettyQuestions = pretty.replace(/\,\s((?:\d{1,2}\.|[A-Z][\w\(\)]+)(?:\s[\w\(\)\.\?\s\`\'\/\,\"\#\&\;]*\:|\:))/g, ",\n$1").split(",\n");
     const rawData = _.omit(JSON.parse(rawRequest), ["event_id", "slug"]);
 
     for(const key in rawData) {
-        const questionNum = getQuestionNumber(key);
-        const prettyQuestion = prettyQuestions.find(q => isQuestion(q, questionNum)) || "";
-        parsedForm[questionNum] = {
-            question: prettyQuestion.replace(`:${_.isArray(rawData[key]) ? rawData[key].join(" ") : rawData[key]}`, ""),
-            answer:  _.isArray(rawData[key])
-                ? rawData[key].map(i => formatText(i))
-                : formatText(rawData[key])
-        };
+        if (isValidQuestion(key)) {
+            const questionNum = getQuestionNumber(key);
+            const prettyQuestion = prettyQuestions.find(q => isQuestion(q, questionNum)) || "";
+            let rawAnswer = rawData[key];
+            if (prettyQuestion.length > 0 && !_.isEmpty(rawAnswer)) {
+                parsedForm[questionNum] = {
+                    question: prettyQuestion.replace(/\:{1,2}.+/, ""),
+                    answer:  _.isArray(rawAnswer)
+                        ? rawAnswer.map(i => formatText(i))
+                        : _.isObject(rawAnswer)
+                            ? rawAnswer
+                            : formatText(rawAnswer)
+                };
+            }
+        }
     }
 
     return parsedForm;
