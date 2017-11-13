@@ -1,4 +1,3 @@
-import _ from "lodash";
 import moment from "moment-timezone";
 
 import {SlackBot} from "../libs/slack";
@@ -10,19 +9,7 @@ import {controller, post, get, ExpressController} from "../libs/express";
 let submittedForms = [];
 
 export function formatMessageForSlackBot(parsedForm, rule) {
-    const filterredQuestions = _.filter(parsedForm, (q, questionNum) => {
-        const _questionNum = parseInt(questionNum);
-        let isTake = false;
-        rule.slack.questions.forEach(_q => {
-            if (_.isArray(_q) && _q.indexOf(_questionNum) >= 0) {
-                isTake = true;
-            } else if (_.isNumber(_q) && _questionNum === _q) {
-                isTake = true;
-            }
-        });
-
-        return isTake;
-    }).map(q => ({
+    const filterredQuestions = rule.slack.questions.map(q => q(parsedForm)).map(q => ({
         title: q.question,
         value: q.answer,
         short: false

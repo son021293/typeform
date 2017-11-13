@@ -54,7 +54,7 @@ export function parseForm({pretty, rawRequest}) {
                 parsedForm[questionNum] = {
                     question: prettyQuestion.replace(/\:{1,2}.+/, ""),
                     answer:  _.isArray(rawAnswer)
-                        ? rawAnswer.map(i => formatText(i))
+                        ? rawAnswer.map(i => formatText(i)).join(", ")
                         : _.isObject(rawAnswer)
                             ? rawAnswer
                             : formatText(rawAnswer)

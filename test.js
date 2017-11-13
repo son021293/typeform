@@ -1,3 +1,4 @@
+const request = require("request");
 const {parseForm} = require("./dist/libs/utils");
 const {applySheetRule, getFormRule} = require("./dist/controllers/sheets-rules");
 const {formatMessageForSlackBot} = require("./dist/controllers/typeform");
@@ -92,23 +93,19 @@ function processForm(form) {
     };
     console.log(newRow);
     if (formRule.slack) {
-        console.log(JSON.stringify(formatMessageForSlackBot(parsedForm, formRule), {webHookUrl: formRule.slack.webHookUrl}));
+        console.log(JSON.stringify(formatMessageForSlackBot(parsedForm, formRule)));
+        request({
+            method: "POST",
+            url: formRule.slack.webHookUrl,
+            json: formatMessageForSlackBot(parsedForm, formRule),
+        }, function (err, httpResponse, body) {
+            if(err) {
+                console.log(err);
+            } else {
+                console.log({httpResponse, body});
+            }
+        })
     }
 }
 
 listTestForms.forEach(form => processForm(form));
-
-
-
-// const parsedForm = parseForm({
-//     "date": "11/07/2017 @ 17:11 EST",
-//     "formID": "70936128142151",
-//     "submissionID": "3859029445889894025",
-//     "webhookURL": "http://ec2-52-221-209-208.ap-southeast-1.compute.amazonaws.com:9090/api/typeform",
-//     "ip": "208.105.48.85",
-//     "formTitle": "Development Support",
-//     "pretty": "1. Name:Joe Rugo, 2. Is this an issue, a feature idea/request, or a new ISM?:Issue, 18. Is this issue any of the following::I or a Rep are unable to create an outing, 19. Was this issue found by you or a client?:Client, 20. Name, company, and email address of the client that reported the issue::Matt - Jazz, 22. Have you personally replicated the issue?:Yes, 26. Summarize the issue:The resend all button is not working for outing Sandy11132017., 27. List steps taken to replicate the issue in painstaking detail::1. Go to promote tab under Sandy11132017.\r\n2. Click Resend all.\r\n3. Cursor is moved to the message box but the email addresses to not carry through to the To line., 28. What is the known scope of the issue?:Only found this one.",
-//     "username": "Josh_Groupmatics",
-//     "rawRequest": "{\"slug\":\"submit\\/70936128142151\\/\",\"q69_1Name69\":\"Joe Rugo\",\"q39_2Is\":\"Issue\",\"q7_5Please\":\"\",\"q9_7Please\":\"\",\"q18_16Please\":\"\",\"q19_17How\":\"\",\"q20_18Is\":[\"I or a Rep are unable to create an outing\"],\"q21_19Was\":\"Client\",\"q22_20Name\":\"Matt - Jazz\",\"q23_21If\":\"\",\"q24_22Have\":\"Yes\",\"q26_24Summarize\":\"\",\"q37_25List\":\"\",\"q27_26Summarize\":\"The resend all button is not working for outing Sandy11132017.\",\"q36_27List\":\"1. Go to promote tab under Sandy11132017.\\r\\n2. Click Resend all.\\r\\n3. Cursor is moved to the message box but the email addresses to not carry through to the To line.\",\"q29_28What\":\"Only found this one.\",\"q30_29Organization\":\"\",\"q31_30Outing\":\"\",\"q32_31Group\":\"\",\"q33_32Browser\":\"\",\"q34_33Describe\":\"\",\"q35_34Is\":\"\",\"q71_organization\":\"\",\"q72_venueName\":\"\",\"q74_whichVenue\":\"\",\"q79_organizations\":\"\",\"q80_dateFrom\":{\"month\":\"\",\"day\":\"\",\"year\":\"\"},\"q81_dateTo\":{\"month\":\"\",\"day\":\"\",\"year\":\"\"},\"event_id\":\"1510093604352_70936128142151_6dIWe47\",\"q12_10What\":\"\",\"q13_11What\":\"\",\"q14_12What\":\"\",\"q15_13What\":\"\",\"q16_14What\":\"\",\"q17_15What\":\"\",\"q25_23Please\":\"\",\"q38_3Is\":\"\",\"q40_4Did\":\"\",\"q41_6Did\":\"\",\"q42_8What\":\"\",\"q43_9What\":\"\",\"q73_doesThis\":\"\"}",
-//     "type": "WEB"
-// });
