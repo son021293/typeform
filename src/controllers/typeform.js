@@ -9,7 +9,7 @@ import {controller, post, get, ExpressController} from "../libs/express";
 
 let submittedForms = [];
 
-function formatMessageForSlackBot(parsedForm, rule) {
+export function formatMessageForSlackBot(parsedForm, rule) {
     const filterredQuestions = _.filter(parsedForm, (q, questionNum) => {
         const _questionNum = parseInt(questionNum);
         let isTake = false;
@@ -72,7 +72,7 @@ class TypeFormCtrl extends ExpressController {
             this.sheet.insertRow(newRow);
 
             if (formRule.slack) {
-                this.slackBot.notify(formatMessageForSlackBot(parsedForm, formRule));
+                this.slackBot.notify(formatMessageForSlackBot(parsedForm, formRule), {webHookUrl: formRule.slack.webHookUrl});
             }
         } catch (e) {
             console.log(e);
