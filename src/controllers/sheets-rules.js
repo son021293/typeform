@@ -71,7 +71,7 @@ const sheets = {
         condition: (form) => form["2"] && form["2"].answer === "New ISM",
         rule: [
             getNormalAnswer("organization"), getNormalAnswer("venueName"), getNormalAnswer("whichVenue"),
-            getNormalAnswer(1), genCurrentDateTime("dateSubmitted"), genCurrentDateTime("deadline", 3)]
+            getNormalAnswer(1), genCurrentDateTime("dateSubmitted")]
     },
     F: {
         sheet: "'F' Org Review Reports",
