@@ -9,14 +9,12 @@ import {controller, post, get, ExpressController} from "../libs/express";
 
 let submittedForms = [];
 
-const listQuestions = [1, [24, 26], 25, 27];
-
-function formatMessageForSlackBot(parsedForm) {
+function formatMessageForSlackBot(parsedForm, rule) {
     const filterredQuestions = _.filter(parsedForm, (q, questionNum) => {
         const _questionNum = parseInt(questionNum);
         let isTake = false;
-        listQuestions.forEach(_q => {
-            if (_.isArray(_q) && (_questionNum === _q[0] || _questionNum === _q[1])) {
+        rule.slack.questions.forEach(_q => {
+            if (_.isArray(_q) && _q.indexOf(_questionNum) >= 0) {
                 isTake = true;
             } else if (_.isNumber(_q) && _questionNum === _q) {
                 isTake = true;
@@ -31,6 +29,7 @@ function formatMessageForSlackBot(parsedForm) {
     }));
 
     return {
+        channel: rule.slack.channel,
         "attachments": [
             {
                 "title": "Development Support",
@@ -72,8 +71,8 @@ class TypeFormCtrl extends ExpressController {
 
             this.sheet.insertRow(newRow);
 
-            if (formRule.sheet === "'D' Urgent") {
-                this.slackBot.notify(formatMessageForSlackBot(parsedForm));
+            if (formRule.slack) {
+                this.slackBot.notify(formatMessageForSlackBot(parsedForm, formRule));
             }
         } catch (e) {
             console.log(e);

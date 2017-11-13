@@ -57,6 +57,10 @@ const sheets = {
     },
     D: {
         sheet: "'D' Urgent",
+        slack: {
+            channel: "#support_urgent",
+            questions: [1, [24, 26], 25, 27]
+        },
         condition: (form) => form["18"] && !form["18"].answer.find(i => i === "None of the above"),
         rule: [
             getNormalAnswer([24, 26]), getNormalAnswer(28), getNormalAnswer(34),
@@ -75,6 +79,10 @@ const sheets = {
     },
     F: {
         sheet: "'F' Org Review Reports",
+        slack: {
+            channel: "#org-review-noti",
+            questions: [1, "organizations", "dateFrom", "dateTo"]
+        },
         condition: (form) => form["2"] && form["2"].answer === "Organization Review Report",
         rule: [
             getNormalAnswer("organizations"), getDateObjectAnswer("dateFrom"), getDateObjectAnswer("dateTo"),
