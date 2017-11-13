@@ -80,6 +80,7 @@ const sheets = {
     F: {
         sheet: "'F' Org Review Reports",
         slack: {
+            webHookUrl: "https://hooks.slack.com/services/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",
             channel: "#org-review-noti",
             questions: [1, "organizations", "dateFrom", "dateTo"]
         },

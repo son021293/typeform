@@ -5,11 +5,11 @@ export class SlackBot {
         this.webHookUrl = webHookUrl;
     }
 
-    notify(message) {
+    notify(message, options = {webHookUrl: this.webHookUrl}) {
         return new Promise((resolve, reject) => {
             request({
                 method: "POST",
-                url: this.webHookUrl,
+                url: options.webHookUrl,
                 json: message,
             }, function (err, httpResponse, body) {
                 if(err) {
