@@ -46,7 +46,7 @@ function genCurrentDateTime(question, moreDay = 0) {
 const sheets = {
     A: {
         sheet: "'A' Issue",
-        condition: (form) => form["18"] && form["18"].answer.find(i => i === "None of the above"),
+        condition: (form) => form["18"] && form["18"].answer.indexOf("None of the above") >= 0,
         rule: [
             getNormalAnswer([24, 26]), getNormalAnswer(28), getNormalAnswer(34),
             getNormalAnswer(25), getNormalAnswer(27), getNormalAnswer(29),
@@ -78,7 +78,7 @@ const sheets = {
             channel: "#support_urgent",
             questions: [getNormalAnswer(1), getNormalAnswer(24), getNormalAnswer(26), getNormalAnswer(25), getNormalAnswer(27)]
         },
-        condition: (form) => form["18"] && !form["18"].answer.find(i => i === "None of the above"),
+        condition: (form) => form["18"] && !form["18"].answer.indexOf("None of the above") >= 0,
         rule: [
             getNormalAnswer([24, 26]), getNormalAnswer(28), getNormalAnswer(34),
             getNormalAnswer(25), getNormalAnswer(27), getNormalAnswer(29),
