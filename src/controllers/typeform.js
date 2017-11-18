@@ -39,12 +39,7 @@ class TypeFormCtrl extends ExpressController {
     async post(req, res) {
         const {fields} = await parseRequest(req);
 
-        submittedForms.push(
-            Object.assign(
-                {date: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z')},
-                fields
-            )
-        );
+        let hasError = false;
 
         try {
             const parsedForm = parseForm(fields);
@@ -62,8 +57,19 @@ class TypeFormCtrl extends ExpressController {
                 this.slackBot.notify(formatMessageForSlackBot(parsedForm, formRule), {webHookUrl: formRule.slack.webHookUrl});
             }
         } catch (e) {
+            hasError = true;
             console.log(e);
         }
+
+        submittedForms.push(
+            Object.assign(
+                {
+                    date: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'),
+                    hasError
+                },
+                fields
+            )
+        );
 
         res.json({fields: fields});
         res.status(200).end();
