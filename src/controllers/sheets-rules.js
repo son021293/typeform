@@ -75,6 +75,7 @@ const sheets = {
     D: {
         sheet: "'D' Urgent",
         slack: {
+            webHookUrl: "https://hooks.slack.com/services/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",
             channel: "#support_urgent",
             questions: [getNormalAnswer(1), getNormalAnswer(24), getNormalAnswer(26), getNormalAnswer(25), getNormalAnswer(27)]
         },
