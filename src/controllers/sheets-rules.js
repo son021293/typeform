@@ -92,7 +92,7 @@ const sheets = {
         sheet: "'E' ISMs",
         condition: (form) => form["2"] && form["2"].answer === "New ISM",
         rule: [
-            getNormalAnswer("organization"), getNormalAnswer("venueName"), getNormalAnswer("whichVenue"),
+            getNormalAnswer("organization"), getNormalAnswer("venueName"), getNormalAnswer('fieldType'), getNormalAnswer("whichVenue"),
             getNormalAnswer(1), genCurrentDateTime("Date Submitted")]
     },
     F: {
