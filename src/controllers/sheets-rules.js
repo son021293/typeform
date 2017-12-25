@@ -59,7 +59,7 @@ const sheets = {
         sheet: "'B' Frontend",
         condition: (form) => form["3"] && form["3"].answer === "Frontend",
         rule: [
-            getNormalAnswer(16), getNormalAnswer(17), getNormalAnswer(4),
+            getNormalAnswer(16), getNormalAnswer(17), getNormalAnswer(34), getNormalAnswer(4),
             getNormalAnswer(5), genCurrentDateTime("Date Submitted"), getNormalAnswer(1)
         ]
     },
@@ -67,7 +67,7 @@ const sheets = {
         sheet: "'C' Backend",
         condition: (form) => form["3"] && form["3"].answer === "Backend",
         rule: [
-            getNormalAnswer(16), getNormalAnswer(17), getNormalAnswer([8, 9]),
+            getNormalAnswer(16), getNormalAnswer(17), getNormalAnswer(34), getNormalAnswer([8, 9]),
             getNormalAnswer([10, 11, 12, 13, 14, 15]), getNormalAnswer(6), getNormalAnswer(7),
             genCurrentDateTime("Date Submitted"), getNormalAnswer(1)
         ]
