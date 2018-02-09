@@ -1,34 +1,12 @@
 import _ from "lodash";
 import moment from "moment-timezone";
-
-const defaultQuestion = {
-    question: '',
-    answer: ''
-};
-
-function getNormalAnswer(question) {
-    return function (form) {
-        if (_.isArray(question)) {
-            return {
-                question: question.map(q => form[q] ? form[q].question : '').filter(q => q.length > 0).join(", "),
-                answer: question.map(q => form[q] ? form[q].answer : '').filter(q => q.length > 0).join(", ")
-            };
-        } else if (_.isNumber(question) || _.isString(question)) {
-            return form[question] ? {
-                question: form[question].question,
-                answer: form[question].answer
-            } : defaultQuestion;
-        }
-
-        return defaultQuestion;
-    }
-}
+import {formatText} from "../libs/utils";
 
 function getDateObjectAnswer(question) {
     return function (form) {
         const {day, month, year} = form[question].answer;
         return {
-            question: form[question].question,
+            text: form[question].text,
             answer: `${month}/${day}/${year}`
         };
     }
@@ -37,7 +15,7 @@ function getDateObjectAnswer(question) {
 function genCurrentDateTime(question, moreDay = 0) {
     return function () {
         return {
-            question,
+            text: question,
             answer: moment().add(moreDay, 'days').tz("America/New_York").format('MM/DD/YYYY @ HH:MM z')
         };
     }
@@ -46,76 +24,74 @@ function genCurrentDateTime(question, moreDay = 0) {
 const sheets = {
     A: {
         sheet: "'A' Issue",
-        condition: (form) => form["18"] && form["18"].answer.indexOf("None of the above") >= 0,
-        rule: [
-            getNormalAnswer([24, 26]), getNormalAnswer(28), getNormalAnswer(34),
-            getNormalAnswer(25), getNormalAnswer(27), getNormalAnswer(29),
-            getNormalAnswer(30), getNormalAnswer(31), getNormalAnswer(32), getNormalAnswer(33),
-            getNormalAnswer(19), getNormalAnswer(20), getNormalAnswer(21), genCurrentDateTime("Date Submitted"),
-            getNormalAnswer(1)
-        ]
+        condition: (form) => form["20"].answer && form["20"].answer.indexOf("None of the above") >= 0,
+        rule: [[26, 27], 29, 35, 37, 36, 30, 31, 32, 33, 34, 21, 22, 23, genCurrentDateTime("Date Submitted"), 69]
     },
     B: {
         sheet: "'B' Frontend",
-        condition: (form) => form["3"] && form["3"].answer === "Frontend",
-        rule: [
-            getNormalAnswer(16), getNormalAnswer(17), getNormalAnswer(34), getNormalAnswer(4),
-            getNormalAnswer(5), genCurrentDateTime("Date Submitted"), getNormalAnswer(1)
-        ]
+        condition: (form) => form["38"].answer && form["38"].answer === "Frontend",
+        rule: [18, 19, 35, 40, 7, genCurrentDateTime("Date Submitted"), 69]
     },
     C: {
         sheet: "'C' Backend",
-        condition: (form) => form["3"] && form["3"].answer === "Backend",
-        rule: [
-            getNormalAnswer(16), getNormalAnswer(17), getNormalAnswer(34), getNormalAnswer([8, 9]),
-            getNormalAnswer([10, 11, 12, 13, 14, 15]), getNormalAnswer(6), getNormalAnswer(7),
-            genCurrentDateTime("Date Submitted"), getNormalAnswer(1)
-        ]
+        condition: (form) => form["38"].answer && form["38"].answer === "Backend",
+        rule: [18, 19, 35, [42, 43], [12, 13, 14, 15, 16, 17], 41, 9, genCurrentDateTime("Date Submitted"), 69]
     },
     D: {
         sheet: "'D' Urgent",
         slack: {
             webHookUrl: "https://hooks.slack.com/services/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",
             channel: "#support_urgent",
-            questions: [getNormalAnswer(1), getNormalAnswer(24), getNormalAnswer(26), getNormalAnswer(25), getNormalAnswer(27)]
+            questions: [69, 26, 27, 37, 36]
         },
-        condition: (form) => form["18"] && !form["18"].answer.indexOf("None of the above") >= 0,
-        rule: [
-            getNormalAnswer([24, 26]), getNormalAnswer(28), getNormalAnswer(34),
-            getNormalAnswer(25), getNormalAnswer(27), getNormalAnswer(29),
-            getNormalAnswer(30), getNormalAnswer(31), getNormalAnswer(32), getNormalAnswer(33),
-            getNormalAnswer(19), getNormalAnswer(20), getNormalAnswer(21), genCurrentDateTime("Date Submitted"),
-            getNormalAnswer(1)
-        ]
+        condition: (form) => form["20"].answer && !form["20"].answer.indexOf("None of the above") >= 0,
+        rule: [[26, 27], 29, 35, 37, 36, 30, 31, 32, 33, 34, 21, 22, 23, genCurrentDateTime("Date Submitted"), 69]
     },
     E: {
         sheet: "'E' ISMs",
-        condition: (form) => form["2"] && form["2"].answer === "New ISM",
-        rule: [
-            getNormalAnswer("organization"), getNormalAnswer("venueName"), getNormalAnswer('fieldType'), getNormalAnswer("whichVenue"),
-            getNormalAnswer(1), genCurrentDateTime("Date Submitted")]
+        condition: (form) => form["39"].answer && form["39"].answer === "ISM - New or Update",
+        rule: [71, 72, 83, 85, 86, 74, 69, genCurrentDateTime("Date Submitted")]
     },
     F: {
         sheet: "'F' Org Review Reports",
         slack: {
             webHookUrl: "https://hooks.slack.com/services/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",
             channel: "#org-review-noti",
-            questions: [
-                getNormalAnswer(1), getNormalAnswer("organizations"), getDateObjectAnswer("dateFrom"),
-                getDateObjectAnswer("dateTo"), genCurrentDateTime("Date Submitted"), genCurrentDateTime("Deadline", 3)
-            ]
+            questions: [69, 79, getDateObjectAnswer(80), getDateObjectAnswer(81), genCurrentDateTime("Date Submitted"), genCurrentDateTime("Deadline", 3)]
         },
-        condition: (form) => form["2"] && form["2"].answer === "Organization Review Report",
-        rule: [
-            getNormalAnswer("organizations"), getDateObjectAnswer("dateFrom"), getDateObjectAnswer("dateTo"),
-            getNormalAnswer(1), genCurrentDateTime("Date Submitted"), genCurrentDateTime("Deadline", 3)]
+        condition: (form) => form["39"].answer && form["39"].answer === "Organization Review Report",
+        rule: [79, getDateObjectAnswer(80), getDateObjectAnswer(81), 69, genCurrentDateTime("Date Submitted"), genCurrentDateTime("Deadline", 3)]
     }
 };
 
+function applyRule(rule, form) {
+    if(_.isNumber(rule)) {
+        return form[rule];
+    }
+    if(_.isFunction(rule)) {
+        return rule(form);
+    }
+}
+
 export function applySheetRule(rules, form) {
-    return rules.map(rule => rule(form).answer);
+    return rules.map(rule => {
+        if(_.isArray(rule)) {
+            return rule.map(r => formatText(applyRule(r, form).answer || '')).filter(a => a.length > 0).join(", ");
+        } else {
+            return formatText(applyRule(rule, form).answer || '');
+        }
+    });
+}
+export function applySheetRuleForSlack(rules, form) {
+    return rules.map(rule => {
+        if(_.isArray(rule)) {
+            return rule.map(r => applyRule(r, form));
+        } else {
+            return applyRule(rule, form);
+        }
+    });
 }
 
 export function getFormRule(form) {
-    return _.filter(sheets, (sheet, key) => sheet.condition(form))[0];
+    return _.filter(sheets, sheet => sheet.condition(form))[0];
 }

@@ -33,7 +33,7 @@ export class SpreadSheet {
         this.config = {auth, spreadsheetId}
     }
 
-    insertRow({range, row}) {
+    insertRows({range, rows}) {
         const {auth, spreadsheetId} = this.config;
         const request = {
             auth,
@@ -42,13 +42,14 @@ export class SpreadSheet {
             valueInputOption: 'RAW',
             insertDataOption: 'INSERT_ROWS',
             resource: {
-                values: [row]
+                values: rows
             }
         };
 
         return new Promise((resolve, reject) => {
             sheets.spreadsheets.values.append(request, function(err, response) {
                 if (err) {
+                    console.log(err);
                     reject(err);
                 } else {
                     resolve(response);

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev-server": "nodemon ./src/index.js --exec babel-node",
+    "test": "nodemon test.js --exec babel-node",
     "build": "babel ./src -d dist",
     "start": "node dist/index.js"
   },
@@ -16,7 +17,7 @@
     "formidable": "^1.1.1",
     "google-auth-library": "^0.10.0",
     "googleapis": "^19.0.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.5",
     "moment-timezone": "^0.5.13",
     "request": "^2.81.0"
   },
