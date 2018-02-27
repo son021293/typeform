@@ -16,7 +16,7 @@ function genCurrentDateTime(question, moreDay = 0) {
     return function () {
         return {
             text: question,
-            answer: moment().add(moreDay, 'days').tz("America/New_York").format('MM/DD/YYYY @ HH:MM z')
+            answer: moment().add(moreDay, 'days').tz("America/New_York").format('MM/DD/YYYY @ hh:mm z')
         };
     }
 }
