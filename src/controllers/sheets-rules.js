@@ -61,6 +61,11 @@ const sheets = {
         },
         condition: (form) => form["39"].answer && form["39"].answer === "Organization Review Report",
         rule: [79, getDateObjectAnswer(80), getDateObjectAnswer(81), 69, genCurrentDateTime("Date Submitted"), genCurrentDateTime("Deadline", 3)]
+    },
+    G: {
+        sheet: "'G' Custom Group Leader Video",
+        condition: (form) => form["39"].answer && form["39"].answer === "Custom Group Leader Video",
+        rule: [71, 69, genCurrentDateTime("Date Submitted")]
     }
 };
 
