@@ -46,7 +46,7 @@ class TypeFormCtrl extends ExpressController {
             throw `Error: "${parsedResp.message}"`;
         }
 
-        const parsedForm = JSON.parse(resp).content.answers;
+        const parsedForm = parsedResp.content.answers;
         const formRule = getFormRule(parsedForm);
 
         const newRow = {
