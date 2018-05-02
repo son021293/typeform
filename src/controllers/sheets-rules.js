@@ -42,7 +42,7 @@ const sheets = {
         slack: {
             webHookUrl: "https://hooks.slack.com/services/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",
             channel: "#support_urgent",
-            questions: [69, 26, 27, 37, 36]
+            questions: [69, 26, 27, 29, 35, 37, 36, 30, 31, 32, 33, 34, 21, 22, 23]
         },
         condition: (form) => form["20"].answer && !form["20"].answer.indexOf("None of the above") >= 0,
         rule: [[26, 27], 29, 35, 37, 36, 30, 31, 32, 33, 34, 21, 22, 23, genCurrentDateTime("Date Submitted"), 69]
