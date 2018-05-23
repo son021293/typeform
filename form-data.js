@@ -1,6 +1,6 @@
 export const formData = [
     {
-        "date": "05/02/2018 @ 11:05 EDT",
+        "date_display": "05/02/2018 @ 11:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4010830394612235601",
@@ -13,7 +13,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/02/2018 @ 12:05 EDT",
+        "date_display": "05/02/2018 @ 12:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4010889094611052175",
@@ -26,7 +26,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/02/2018 @ 14:05 EDT",
+        "date_display": "05/02/2018 @ 14:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4010944868491355445",
@@ -39,7 +39,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/02/2018 @ 15:05 EDT",
+        "date_display": "05/02/2018 @ 15:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4010995290454565854",
@@ -52,7 +52,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/02/2018 @ 22:05 EDT",
+        "date_display": "05/02/2018 @ 22:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4011227084617704865",
@@ -65,7 +65,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/03/2018 @ 13:05 EDT",
+        "date_display": "05/03/2018 @ 13:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4011785648499072825",
@@ -78,7 +78,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/03/2018 @ 16:05 EDT",
+        "date_display": "05/03/2018 @ 16:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4011892008491723553",
@@ -91,7 +91,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/04/2018 @ 10:05 EDT",
+        "date_display": "05/04/2018 @ 10:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4012522338493573180",
@@ -104,7 +104,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/04/2018 @ 11:05 EDT",
+        "date_display": "05/04/2018 @ 11:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4012560258312631998",
@@ -117,7 +117,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/04/2018 @ 13:05 EDT",
+        "date_display": "05/04/2018 @ 13:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4012640609319457305",
@@ -130,7 +130,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/04/2018 @ 13:05 EDT",
+        "date_display": "05/04/2018 @ 13:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4012641818493878423",
@@ -143,7 +143,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/07/2018 @ 12:05 EDT",
+        "date_display": "05/07/2018 @ 12:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4015214458313171968",
@@ -156,7 +156,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/07/2018 @ 14:05 EDT",
+        "date_display": "05/07/2018 @ 14:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4015273359312951135",
@@ -169,7 +169,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/08/2018 @ 10:05 EDT",
+        "date_display": "05/08/2018 @ 10:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4015978239311127241",
@@ -182,7 +182,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/08/2018 @ 11:05 EDT",
+        "date_display": "05/08/2018 @ 11:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4016033428317117053",
@@ -195,7 +195,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/08/2018 @ 12:05 EDT",
+        "date_display": "05/08/2018 @ 12:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4016064258313211718",
@@ -208,7 +208,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/08/2018 @ 13:05 EDT",
+        "date_display": "05/08/2018 @ 13:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4016105348318948309",
@@ -221,7 +221,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/08/2018 @ 14:05 EDT",
+        "date_display": "05/08/2018 @ 14:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4016145668315292366",
@@ -234,7 +234,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/08/2018 @ 15:05 EDT",
+        "date_display": "05/08/2018 @ 15:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4016192788316568533",
@@ -247,7 +247,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/08/2018 @ 17:05 EDT",
+        "date_display": "05/08/2018 @ 17:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4016231029312643170",
@@ -260,7 +260,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/09/2018 @ 11:05 EDT",
+        "date_display": "05/09/2018 @ 11:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4016907638312832260",
@@ -273,7 +273,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/09/2018 @ 12:05 EDT",
+        "date_display": "05/09/2018 @ 12:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4016920736013525160",
@@ -286,7 +286,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/09/2018 @ 12:05 EDT",
+        "date_display": "05/09/2018 @ 12:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4016921425381185138",
@@ -299,7 +299,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/09/2018 @ 13:05 EDT",
+        "date_display": "05/09/2018 @ 13:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4016965956228194881",
@@ -312,7 +312,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/10/2018 @ 14:05 EDT",
+        "date_display": "05/10/2018 @ 14:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4017860930455239493",
@@ -325,7 +325,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/10/2018 @ 15:05 EDT",
+        "date_display": "05/10/2018 @ 15:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4017920019322561516",
@@ -338,7 +338,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/10/2018 @ 16:05 EDT",
+        "date_display": "05/10/2018 @ 16:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4017947502028308948",
@@ -351,7 +351,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/10/2018 @ 18:05 EDT",
+        "date_display": "05/10/2018 @ 18:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4018005600457624038",
@@ -364,7 +364,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/10/2018 @ 18:05 EDT",
+        "date_display": "05/10/2018 @ 18:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4018008120453005242",
@@ -377,7 +377,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/11/2018 @ 09:05 EDT",
+        "date_display": "05/11/2018 @ 09:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4018565862526809827",
@@ -390,7 +390,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/11/2018 @ 10:05 EDT",
+        "date_display": "05/11/2018 @ 10:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4018584062524328170",
@@ -403,7 +403,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/11/2018 @ 10:05 EDT",
+        "date_display": "05/11/2018 @ 10:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4018585278496424412",
@@ -416,7 +416,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/11/2018 @ 12:05 EDT",
+        "date_display": "05/11/2018 @ 12:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4018645428493288191",
@@ -429,7 +429,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/11/2018 @ 14:05 EDT",
+        "date_display": "05/11/2018 @ 14:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4018714248316705913",
@@ -442,7 +442,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/11/2018 @ 14:05 EDT",
+        "date_display": "05/11/2018 @ 14:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4018719028318771470",
@@ -455,7 +455,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/11/2018 @ 15:05 EDT",
+        "date_display": "05/11/2018 @ 15:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4018782498313319360",
@@ -468,7 +468,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/11/2018 @ 18:05 EDT",
+        "date_display": "05/11/2018 @ 18:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4018873039318231227",
@@ -481,7 +481,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/14/2018 @ 09:05 EDT",
+        "date_display": "05/14/2018 @ 09:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4021141848318971348",
@@ -494,7 +494,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/14/2018 @ 13:05 EDT",
+        "date_display": "05/14/2018 @ 13:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4021270848497462123",
@@ -507,7 +507,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/14/2018 @ 16:05 EDT",
+        "date_display": "05/14/2018 @ 16:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4021379493718136191",
@@ -520,7 +520,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/15/2018 @ 10:05 EDT",
+        "date_display": "05/15/2018 @ 10:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4022036475714178407",
@@ -533,7 +533,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/15/2018 @ 10:05 EDT",
+        "date_display": "05/15/2018 @ 10:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4022039225711592575",
@@ -546,7 +546,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/15/2018 @ 11:05 EDT",
+        "date_display": "05/15/2018 @ 11:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4022068481325078737",
@@ -559,7 +559,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/15/2018 @ 15:05 EDT",
+        "date_display": "05/15/2018 @ 15:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4022230248491101505",
@@ -572,7 +572,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/16/2018 @ 13:05 EDT",
+        "date_display": "05/16/2018 @ 13:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4023031238498571744",
@@ -585,7 +585,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/16/2018 @ 15:05 EDT",
+        "date_display": "05/16/2018 @ 15:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4023069371326982115",
@@ -598,7 +598,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/16/2018 @ 22:05 EDT",
+        "date_display": "05/16/2018 @ 22:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4023348936116219292",
@@ -611,7 +611,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/16/2018 @ 22:05 EDT",
+        "date_display": "05/16/2018 @ 22:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4023353156118582218",
@@ -624,7 +624,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/16/2018 @ 22:05 EDT",
+        "date_display": "05/16/2018 @ 22:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4023354650121049124",
@@ -637,7 +637,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/17/2018 @ 07:05 EDT",
+        "date_display": "05/17/2018 @ 07:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4023665397141585518",
@@ -650,7 +650,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/17/2018 @ 08:05 EDT",
+        "date_display": "05/17/2018 @ 08:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4023708068497366209",
@@ -663,7 +663,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/17/2018 @ 14:05 EDT",
+        "date_display": "05/17/2018 @ 14:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4023919358498608398",
@@ -676,7 +676,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/17/2018 @ 15:05 EDT",
+        "date_display": "05/17/2018 @ 15:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4023941969324937600",
@@ -689,7 +689,7 @@ export const formData = [
         "type": "WEB"
     },
     {
-        "date": "05/17/2018 @ 21:05 EDT",
+        "date_display": "05/17/2018 @ 21:05 EDT",
         "hasError": false,
         "formID": "70936128142151",
         "submissionID": "4024175542521370480",

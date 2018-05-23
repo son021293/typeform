@@ -40,7 +40,7 @@ const packagingAssets = () =>{
 };
 
 gulp.task("dev", ()=>{
-    startServer();
+    // startServer();
     stylusCompiler.watch("./dev/assets/css");
     if (!/^win/.test(process.platform)) { // linux
         spawn("webpack", ["--watch"], {stdio: "inherit"});

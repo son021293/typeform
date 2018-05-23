@@ -96,6 +96,8 @@ class TypeFormCtrl extends ExpressController {
         FormItem.find({}).then(items => {
             res.json(items);
             res.status(200).end();
+        }).catch(err => {
+            throw new Error("get all form items failed!\n" + err);
         });
 
     }

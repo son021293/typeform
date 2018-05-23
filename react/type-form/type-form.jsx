@@ -1,14 +1,15 @@
 import React, {Fragment} from "react";
 import {TableBody} from "./table-body/table-body";
 import {TableHeader} from "./table-header/table-header";
-import {formData} from "../../form-data";
+import {formItemApi} from "../api/common/form-item-api";
 
 export class TypeForm extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            data: formData
+            data: []
         };
+        formItemApi.getForms().then(data => this.setState({data}))
     };
     render(){
         let {data} = this.state;
@@ -16,7 +17,11 @@ export class TypeForm extends React.Component{
             <Fragment>
                 <div className="container t-c">
                     <div className="rl-s-w">
-                        <button className="rl-s btn">
+                        <button className="rl-s btn"
+                                onClick={()=>{
+                                    // postForms(formData);
+                                }}
+                        >
                             RE-LOG SELECTED
                         </button>
                     </div>

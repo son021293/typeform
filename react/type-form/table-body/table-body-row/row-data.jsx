@@ -17,11 +17,11 @@ export const rowData = [
     }, {
         render: ({data}) => data.submissionID
     } , {
-        render: ({data}) => data.date
+        render: ({data}) => data.date_display
     } , {
         render: ({data}) => data.username
     } , {
-        render: ({data}) => data.hasError ? "Success" : "Fail"
+        render: ({data}) => !data.hasError ? "Success" : "Fail"
     } , {
         render: ({action}) => (
             <button className="btn r-l"
