@@ -1,0 +1,88 @@
+@import "utils.styl"
+html,body{
+  background-color #e5e5e5
+  padding-bottom 100px
+}
+.disabledEvent{
+  pointer-events none
+}
+.disabled{
+  opacity 0.4
+}
+.cover{
+  width 100%
+  height 100%
+
+}
+.p-relative{
+  position relative
+}
+.not-allowed {
+  cursor not-allowed
+}
+html
+  box-sizing border-box
+  font-size 62.5%
+  font-family Helvetica,Arial,sans-serif
+
+button
+  cursor pointer
+a
+  text-decoration none
+@keyframes faded{
+  from{
+    opacity 0
+  }
+  to{
+    opacity 1
+  }
+}
+body
+  margin 0
+  padding 0
+  color white
+  font-size m
+  button
+    cursor pointer
+  button:disabled
+    cursor default
+h1
+h2
+h3
+h4
+p
+button
+  margin 0
+  padding 0
+.row{
+  margin 0 !important
+}
+ul{
+  padding 0
+  margin 0
+  list-style-type none
+  li{
+    padding 0
+  }
+}
+scrollStyle(grey)
+@keyframes spinner{
+  from{
+    transform rotateZ(0)
+  }
+  to{
+    transform rotateZ(360deg)
+  }
+}
+@keyframes move{
+  from {
+    left 0
+
+  }
+  to {
+    left 50%
+    top 50%
+    transform translate(-50%,-50%)
+
+  }
+}

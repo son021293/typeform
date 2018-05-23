@@ -1,5 +1,5 @@
 import moment from "moment-timezone";
-
+import {FormItem} from "../model/form-item";
 import {SlackBot} from "../libs/slack";
 import {Jotform} from "../libs/jotform";
 import {SpreadSheet} from "../libs/google-apis";
@@ -67,6 +67,7 @@ class TypeFormCtrl extends ExpressController {
 
         let hasError = false;
 
+
         try {
             this.submitFormToSuppLog(fields.submissionID);
         } catch (e) {
@@ -74,24 +75,29 @@ class TypeFormCtrl extends ExpressController {
             console.log(e);
         }
 
-        submittedForms.push(
-            Object.assign(
-                {
-                    date: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'),
-                    hasError
-                },
-                fields
-            )
-        );
 
-        res.json({fields: fields});
-        res.status(200).end();
+        let data = new FormItem(Object.assign(
+            {
+                date_display: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'),
+                date: Date.now(),
+                hasError
+            },
+            fields
+        ));
+
+        data.save().then(item => {
+            res.json({fields: item});
+            res.status(200).end();
+        });
     }
 
     @get('/submitted-forms')
     getSubmittedForms(req, res) {
-        res.json(submittedForms);
-        res.status(200).end();
+        FormItem.find({}).then(items => {
+            res.json(items);
+            res.status(200).end();
+        });
+
     }
 
     @get('/update-submissions')
