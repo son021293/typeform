@@ -8,13 +8,14 @@ export class TableBody extends React.Component {
     };
 
     render() {
-        let {list} = this.props;
+        let {list, config} = this.props;
         return (
             <tbody>
             {list.map((each, i) => (
                 <TableBodyRow
                     data={each}
                     key={i}
+                    config={config}
                 />
             ))
 
