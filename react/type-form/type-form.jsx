@@ -27,6 +27,7 @@ export class TypeForm extends React.Component {
                         </button>
                     </div>
                     <div className="t-w">
+                        {/* todo search */}
                         <DataTable
                             list={data}
                             config={tableConfig}
