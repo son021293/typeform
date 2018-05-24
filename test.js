@@ -19,12 +19,14 @@ let form = new Jotform('793e8de2ec7fa2e74798cfe280c06fe1');
     // const resp = await form.getSubmission('3915049071312813846');
     // // D Urgent
     // const resp = await form.getSubmission('3936588219318876704');
-    // // E ism
-    // const resp = await form.getSubmission('3939547281217457250');
+    // E ism
+    const resp = await form.getSubmission('4023069371326982115');
     // // F Org review report
     // const resp = await form.getSubmission('3939722891215366175');
     // 'G' Custom Group Leader Video
-    const resp = await form.getSubmission('3996630635327973546');
+    // const resp = await form.getSubmission('3996630635327973546');
+
+    console.log(123123);
 
     const parsedForm = JSON.parse(resp).content.answers;
     const formRule = getFormRule(parsedForm);
@@ -37,6 +39,6 @@ let form = new Jotform('793e8de2ec7fa2e74798cfe280c06fe1');
     console.log(newRow);
 
     // console.log(formatMessageForSlackBot(parsedForm, formRule).attachments[0].fields);
-    const result = await sheet.insertRows(newRow);
-    console.log(result)
+    // const result = await sheet.insertRows(newRow);
+    // console.log(result)
 })();
