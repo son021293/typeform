@@ -1,10 +1,10 @@
-import {Jotform} from "./src/libs/jotform";
-import {applySheetRule, applySheetRuleForSlack, getFormRule} from "./src/controllers/sheets-rules";
-import {formatMessageForSlackBot} from "./src/controllers/typeform";
-import {GoogleAuth, SpreadSheet} from "./src/libs/google-apis";
+import {Jotform} from "./server/libs/jotform";
+import {applySheetRule, applySheetRuleForSlack, getFormRule} from "./server/controllers/sheets-rules";
+import {formatMessageForSlackBot} from "./server/controllers/typeform";
+import {GoogleAuth, SpreadSheet} from "./server/libs/google-apis";
 import {client_email, private_key} from "./client-key";
 import {dbURL, scopes, sheetId} from "./config";
-import {Submission} from "./src/model/submission";
+import {Submission} from "./server/model/submission";
 import {formData} from "./form-data";
 import mongoose from "mongoose";
 

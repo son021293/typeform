@@ -5,7 +5,7 @@ const exec = require('child_process').exec;
 
 const startServer = () =>{
     nodemon({
-        script:"src/index.js",
+        script:"server/index.js",
         ext:"js",
         exec: "babel-node",
         ignore:[
