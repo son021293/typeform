@@ -1,13 +1,11 @@
 import moment from "moment-timezone";
-import {FormItem} from "../model/form-item";
+import {Submission} from "../model/submission";
 import {SlackBot} from "../libs/slack";
 import {Jotform} from "../libs/jotform";
 import {SpreadSheet} from "../libs/google-apis";
 import {formatText, parseRequest} from "../libs/utils";
 import {controller, post, get, ExpressController} from "../libs/express";
 import {applySheetRule, applySheetRuleForSlack, getFormRule} from "./sheets-rules";
-
-let submittedForms = [];
 
 export function formatMessageForSlackBot(parsedForm, rule) {
     const filterredQuestions = applySheetRuleForSlack(rule.slack.questions, parsedForm).map(q => ({
@@ -37,7 +35,8 @@ class TypeFormCtrl extends ExpressController {
         this.jotform = new Jotform(jotformApiKey);
     }
 
-    async submitFormToSuppLog(submissionID) {
+    // todo: need fix here
+    async submitFormToSuppLog(submissionID, canSubmitToSlack = true) {
         const resp = await this.jotform.getSubmission(submissionID);
         const parsedResp = JSON.parse(resp);
 
@@ -51,55 +50,60 @@ class TypeFormCtrl extends ExpressController {
 
         const newRow = {
             range: formRule.sheet,
-            rows: [applySheetRule(formRule.rule, parsedForm)]
+            rows: [applySheetRule(formRule.rule, parsedForm)],
+            name: applySheetRule([69], parsedForm)[0]
         };
 
-        if (formRule.slack) {
-            this.slackBot.notify(formatMessageForSlackBot(parsedForm, formRule), {webHookUrl: formRule.slack.webHookUrl});
+        if (canSubmitToSlack && formRule.slack) {
+            await this.slackBot.notify(formatMessageForSlackBot(parsedForm, formRule), {webHookUrl: formRule.slack.webHookUrl});
         }
 
-        return this.sheet.insertRows(newRow);
+        return Promise.all([
+            newRow,
+            this.sheet.insertRows(newRow),
+        ]);
     }
 
     @post()
     async post(req, res) {
         const {fields} = await parseRequest(req);
 
-        let hasError = false;
-
+        let results = {
+            hasError: false
+        };
 
         try {
-            this.submitFormToSuppLog(fields.submissionID);
+            const [newRow, promiseResult] = await this.submitFormToSuppLog(fields.submissionID);
+            results.sheet = newRow.range;
+            results.name = newRow.name
         } catch (e) {
-            hasError = true;
-            console.log(e);
+            results.hasError = true;
+            results.errorMessage = e;
         }
 
-
-        let data = new FormItem(Object.assign(
+        let data = new Submission(Object.assign(
             {
                 date_display: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'),
                 date: Date.now(),
-                hasError
             },
-            fields
+            fields,
+            results
         ));
 
-        data.save().then(item => {
-            res.json({fields: item});
+        data.save().then(() => {
+            res.json({fields: fields});
             res.status(200).end();
         });
     }
 
     @get('/submitted-forms')
     getSubmittedForms(req, res) {
-        FormItem.find({}).then(items => {
+        Submission.find({}).then(items => {
             res.json(items);
             res.status(200).end();
         }).catch(err => {
             throw new Error("get all form items failed!\n" + err);
         });
-
     }
 
     @get('/update-submissions')
@@ -107,7 +111,7 @@ class TypeFormCtrl extends ExpressController {
         const subIDs = req.query.ids.split(",");
 
         try {
-            const promiseds = await Promise.all(subIDs.map(subID => this.submitFormToSuppLog(subID)));
+            const promises = await Promise.all(subIDs.map(subID => this.submitFormToSuppLog(subID)));
 
             res.status(200).end();
         } catch (e) {

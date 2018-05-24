@@ -7,5 +7,5 @@
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"
   ],
-  "dbURL":"mongodb://localhost:27017/form"
+  "dbURL":"mongodb://localhost:27017/typeform"
 }

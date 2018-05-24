@@ -1,15 +1,15 @@
 import {Jotform} from "./src/libs/jotform";
-import {applySheetRule, getFormRule} from "./src/controllers/sheets-rules";
+import {applySheetRule, applySheetRuleForSlack, getFormRule} from "./src/controllers/sheets-rules";
 import {formatMessageForSlackBot} from "./src/controllers/typeform";
 import {GoogleAuth, SpreadSheet} from "./src/libs/google-apis";
 import {client_email, private_key} from "./client-key";
 import {dbURL, scopes, sheetId} from "./config";
-import {FormItem} from "./src/model/form-item";
+import {Submission} from "./src/model/submission";
 import {formData} from "./form-data";
 import mongoose from "mongoose";
 
 // let form = new Jotform('793e8de2ec7fa2e74798cfe280c06fe1');
-//
+
 // (async function () {
 //     const googleAuth = await new GoogleAuth({scopes, clientKey: {client_email, private_key}}).get();
 //     const sheet = new SpreadSheet({auth: googleAuth, spreadsheetId: sheetId});
@@ -23,25 +23,25 @@ import mongoose from "mongoose";
 //     // // D Urgent
 //     // const resp = await form.getSubmission('3936588219318876704');
 //     // E ism
-//     const resp = await form.getSubmission('4023069371326982115');
+//     // const resp = await form.getSubmission('3939547281217457250');
 //     // // F Org review report
 //     // const resp = await form.getSubmission('3939722891215366175');
 //     // 'G' Custom Group Leader Video
-//     // const resp = await form.getSubmission('3996630635327973546');
+//     const resp = await form.getSubmission('3996630635327973546');
 //
-//     console.log(123123);
+//     // console.log(resp);
 //
 //     const parsedForm = JSON.parse(resp).content.answers;
 //     const formRule = getFormRule(parsedForm);
 //
 //     const newRow = {
 //         range: formRule.sheet,
-//         row: applySheetRule(formRule.rule, parsedForm)
+//         rows: [applySheetRule(formRule.rule, parsedForm)],
+//         name: applySheetRule([69], parsedForm)[0]
 //     };
 //
-//     console.log(newRow);
+//     console.log(applySheetRuleForSlack(formRule.rule, parsedForm));
 //
-//     // console.log(formatMessageForSlackBot(parsedForm, formRule).attachments[0].fields);
 //     // const result = await sheet.insertRows(newRow);
 //     // console.log(result)
 // })();
@@ -53,7 +53,7 @@ const postForms = list => {
         console.log("Connected to db!");
     });
     let process = list.map((item) => {
-        let data = new FormItem(item);
+        let data = new Submission(item);
         return data.save();
     });
     Promise.all(process).then(()=> console.log("Post forms success"));
