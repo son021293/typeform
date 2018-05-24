@@ -1,24 +1,25 @@
 import React, {Fragment} from "react";
-import {TableBody} from "./table-body/table-body";
-import {TableHeader} from "./table-header/table-header";
 import {formItemApi} from "../api/common/form-item-api";
+import {DataTable} from "./data-table/data-table";
+import {tableConfig} from "./table-config";
 
-export class TypeForm extends React.Component{
-    constructor(props){
+export class TypeForm extends React.Component {
+    constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             data: []
         };
         formItemApi.getForms().then(data => this.setState({data}))
     };
-    render(){
+
+    render() {
         let {data} = this.state;
-        return(
+        return (
             <Fragment>
                 <div className="container t-c">
                     <div className="rl-s-w">
                         <button className="rl-s btn"
-                                onClick={()=>{
+                                onClick={() => {
                                     // postForms(formData);
                                 }}
                         >
@@ -26,12 +27,10 @@ export class TypeForm extends React.Component{
                         </button>
                     </div>
                     <div className="t-w">
-                        <table>
-                            <TableHeader/>
-                            <TableBody
-                                list={data}
-                            />
-                        </table>
+                        <DataTable
+                            list={data}
+                            config={tableConfig}
+                        />
                     </div>
 
                 </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import {rowData} from "./row-data";
+import {rowData} from "../../../table-config";
 import {EachRow} from "./each-row/each-row";
 
 export class TableBodyRow extends React.Component{
@@ -9,10 +9,10 @@ export class TableBodyRow extends React.Component{
         };
     };
     render(){
-        let {data} = this.props;
+        let {data, config} = this.props;
         return(
             <tr className="t-b">
-                {rowData.map((each, i) => (
+                {config.map((each, i) => (
                     <EachRow
                         {...each}
                         key={i}
