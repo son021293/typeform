@@ -13,21 +13,21 @@ import {port, sheetId, scopes, webHookUrl, jotformApiKey, dbURL} from "../config
 function initServer() {
     mongoose.connect(dbURL);
     let db = mongoose.connection;
-    db.once("open", async () =>{
+    db.once("open", async () => {
         const googleAuth = await new GoogleAuth({scopes, clientKey: {client_email, private_key}}).get();
 
         let httpApp = express();
         console.log("Connected to db!");
 
-        httpApp.use(express.static(path.resolve(__dirname,"../dev")));
+        httpApp.use(express.static(path.resolve(__dirname, "../dev")));
         httpApp.use(bodyParser.urlencoded({extended: true}));
         httpApp.use(bodyParser.json());
 
-        httpApp.get("*",(req, res, next) => {
-            if(req.path.match(/^\/api\//)){
+        httpApp.get("*", (req, res, next) => {
+            if (req.path.match(/^\/api\//)) {
                 next();
-            }else{
-                res.sendFile(path.resolve(__dirname,"../dev/index.html"));
+            } else {
+                res.sendFile(path.resolve(__dirname, "../dev/index.html"));
             }
         });
 

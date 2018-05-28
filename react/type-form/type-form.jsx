@@ -1,19 +1,23 @@
 import React, {Fragment} from "react";
-import {formItemApi} from "../api/common/form-item-api";
+import {formItemApi} from "../api/common/appApi/api-list/form-item-api";
 import {DataTable} from "./data-table/data-table";
 import {tableConfig} from "./table-config";
+import {SearchBar} from "./search-bar/search-bar";
+import {simpleSearchArr} from "../utils/search-utils";
 
 export class TypeForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            search: ""
         };
         formItemApi.getForms().then(data => this.setState({data}))
     };
 
     render() {
-        let {data} = this.state;
+        let {data, search} = this.state;
+        let list = simpleSearchArr(data, ["submissionID", "username"], search);
         return (
             <Fragment>
                 <div className="container t-c">
@@ -26,10 +30,15 @@ export class TypeForm extends React.Component {
                             RE-LOG SELECTED
                         </button>
                     </div>
+                    <SearchBar
+                        val={search}
+                        onChange={search => this.setState({search})}
+                        placeholder="Search"
+                    />
                     <div className="t-w">
                         {/* todo search */}
                         <DataTable
-                            list={data}
+                            list={list}
                             config={tableConfig}
                         />
                     </div>
