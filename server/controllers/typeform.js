@@ -37,31 +37,63 @@ class TypeFormCtrl extends ExpressController {
 
     // todo: need fix here
     async submitFormToSuppLog(submissionID, canSubmitToSlack = true) {
+        let promises = Promise.resolve();
+        const results = {
+            hasError: false,
+            errorMessage: ""
+        };
         const resp = await this.jotform.getSubmission(submissionID);
         const parsedResp = JSON.parse(resp);
 
         if (parsedResp.responseCode != 200) {
             console.log(`Error: "${parsedResp.message}"`);
-            throw `Error: "${parsedResp.message}"`;
+            results.hasError = true;
+            results.errorMessage = `Error: "${parsedResp.message}"`;
+        } else {
+            const parsedForm = parsedResp.content.answers;
+            let formRule = null;
+            let newRow = null;
+
+            try {
+                formRule = getFormRule(parsedForm);
+                newRow = {
+                    range: formRule.sheet,
+                    rows: [applySheetRule(formRule.rule, parsedForm)],
+                    name: applySheetRule([69], parsedForm)[0]
+                };
+            } catch (e) {
+                results.hasError = true;
+                results.errorMessage = "Error: Cannot parse submission\n" + e;
+            }
+
+            if(newRow) {
+                try {
+                    if (canSubmitToSlack && formRule.slack) {
+                        await this.slackBot.notify(formatMessageForSlackBot(parsedForm, formRule), {webHookUrl: formRule.slack.webHookUrl});
+                    }
+                } catch (e) {
+                    results.hasError = true;
+                    results.errorMessage = "Error: Cannot notify to Slack\n" + e;
+                }
+
+                try {
+                    await this.sheet.insertRows(newRow);
+                } catch (e) {
+                    results.hasError = true;
+                    results.errorMessage = "Error: Cannot sent submission to \"Support Logs\"\n" + e;
+                }
+            }
+
+            // todo: upsert data
+            // Submission.find({}).then(items => {
+            //     res.json(items);
+            //     res.status(200).end();
+            // }).catch(err => {
+            //     throw new Error("get all form items failed!\n" + err);
+            // });
         }
 
-        const parsedForm = parsedResp.content.answers;
-        const formRule = getFormRule(parsedForm);
-
-        const newRow = {
-            range: formRule.sheet,
-            rows: [applySheetRule(formRule.rule, parsedForm)],
-            name: applySheetRule([69], parsedForm)[0]
-        };
-
-        if (canSubmitToSlack && formRule.slack) {
-            await this.slackBot.notify(formatMessageForSlackBot(parsedForm, formRule), {webHookUrl: formRule.slack.webHookUrl});
-        }
-
-        return Promise.all([
-            newRow,
-            this.sheet.insertRows(newRow),
-        ]);
+        return promises;
     }
 
     @post()
@@ -84,7 +116,8 @@ class TypeFormCtrl extends ExpressController {
         let data = new Submission(Object.assign(
             {
                 date_display: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'),
-                date: Date.now(),
+                created_date: Date.now(),
+                updated_date: Date.now(),
             },
             fields,
             results

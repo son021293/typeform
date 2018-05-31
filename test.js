@@ -9,10 +9,8 @@ import {formData} from "./form-data";
 import mongoose from "mongoose";
 
 // let form = new Jotform('793e8de2ec7fa2e74798cfe280c06fe1');
-
+//
 // (async function () {
-//     const googleAuth = await new GoogleAuth({scopes, clientKey: {client_email, private_key}}).get();
-//     const sheet = new SpreadSheet({auth: googleAuth, spreadsheetId: sheetId});
 //
 //     // // A issue
 //     // const resp = await form.getSubmission('3939392119312441867');
@@ -29,34 +27,41 @@ import mongoose from "mongoose";
 //     // 'G' Custom Group Leader Video
 //     const resp = await form.getSubmission('3996630635327973546');
 //
-//     // console.log(resp);
+//     console.log(resp);
 //
 //     const parsedForm = JSON.parse(resp).content.answers;
 //     const formRule = getFormRule(parsedForm);
 //
-//     const newRow = {
-//         range: formRule.sheet,
-//         rows: [applySheetRule(formRule.rule, parsedForm)],
-//         name: applySheetRule([69], parsedForm)[0]
-//     };
+//     // const newRow = {
+//     //     range: formRule.sheet,
+//     //     rows: [applySheetRule(formRule.rule, parsedForm)],
+//     //     name: applySheetRule([69], parsedForm)[0]
+//     // };
+//     //
+//     // console.log(applySheetRuleForSlack(formRule.rule, parsedForm));
 //
-//     console.log(applySheetRuleForSlack(formRule.rule, parsedForm));
-//
+//     // const googleAuth = await new GoogleAuth({scopes, clientKey: {client_email, private_key}}).get();
+//     // const sheet = new SpreadSheet({auth: googleAuth, spreadsheetId: sheetId});
 //     // const result = await sheet.insertRows(newRow);
 //     // console.log(result)
 // })();
 
-const postForms = list => {
+const postForms = (list) => {
     mongoose.connect(dbURL);
     let db = mongoose.connection;
-    db.once("open", () =>{
+    db.once("open", async () =>{
         console.log("Connected to db!");
+
+        const results = await Submission.findOne({submissionID: "4010889094611052175"}).lean(true);
+        console.log(results);
+        // let process = list.map((item) => {
+        //     let data = new Submission(item);
+        //     return data.save();
+        // });
+        // Promise.all(process).then(()=> console.log("Post forms success"));
+        db.close();
     });
-    let process = list.map((item) => {
-        let data = new Submission(item);
-        return data.save();
-    });
-    Promise.all(process).then(()=> console.log("Post forms success"));
+
 };
 
 postForms(formData);

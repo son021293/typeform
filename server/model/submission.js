@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const submissionSchema = new Schema({
-    date: Date,
+    created_date: Date,
+    updated_date: Date,
     date_display: String,
     hasError: Boolean,
     submissionID: String,
