@@ -10,7 +10,6 @@ export class DataTable extends React.Component {
 
     render() {
         let {list, config} = this.props;
-        console.log(config);
         return (
             <table>
                 <TableHeader

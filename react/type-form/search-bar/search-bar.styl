@@ -1,0 +1,43 @@
+.search-bar{
+  margin 15px 0
+
+  input{
+    font-size sm - 0.2rem
+    padding 7px 12px
+    width 250px
+    border none
+    outline none
+    border-radius 4px 4px 0 0
+    background-color darken(white,3%)
+    &:focus{
+      background-color white
+      & ~ .line{
+        &:after
+        &:before{
+          width 50%
+        }
+      }
+    }
+  }
+  .line{
+    display block
+    width 250px
+    position relative
+    &:after
+    &:before{
+      content: ''
+      position absolute
+      width:0
+      bottom 0
+      height 2px
+      background-color #2d2a2a
+      transition all 0.2s ease
+    }
+    &:after{
+      right 50%
+    }
+    &:before{
+      left 50%
+    }
+  }
+}
