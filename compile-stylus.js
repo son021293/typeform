@@ -7,7 +7,7 @@ module.exports = {
             return new Promise((resolve, reject)=> {
 
                 var stylus = require("gulp-stylus");
-                gulp.src(`./react/style/main.styl`)
+                gulp.src(`./client/style/main.styl`)
                     .pipe(stylus({
                         compress: true
                     }))
@@ -23,9 +23,9 @@ module.exports = {
         var inject_ = function() {
             return new Promise((resolve, reject)=> {
 
-                var target = gulp.src(`./react/style/main.styl`);
+                var target = gulp.src(`./client/style/main.styl`);
                 var sort = require('gulp-sort');
-                var sources = gulp.src([`./react/**/*.styl`,`!./react/style/*.styl`], {read: false}).pipe(sort());
+                var sources = gulp.src([`./client/**/*.styl`,`!./client/style/*.styl`], {read: false}).pipe(sort());
 
                 var inject = require("gulp-inject");
 
@@ -39,7 +39,7 @@ module.exports = {
                             return `@import "../..${filepath}";`;
                         }
                     }))
-                    .pipe(gulp.dest(`./react/style/`))
+                    .pipe(gulp.dest(`./client/style/`))
                     .on("end", ()=>{
                         console.log("Inject done");
                         resolve();

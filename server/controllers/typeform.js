@@ -7,6 +7,8 @@ import {formatText, parseRequest} from "../libs/utils";
 import {controller, post, get, ExpressController} from "../libs/express";
 import {applySheetRule, applySheetRuleForSlack, getFormRule} from "./sheets-rules";
 
+const DEV = true;
+
 export function formatMessageForSlackBot(parsedForm, rule) {
     const filterredQuestions = applySheetRuleForSlack(rule.slack.questions, parsedForm).map(q => ({
         title: q.text,
@@ -15,7 +17,7 @@ export function formatMessageForSlackBot(parsedForm, rule) {
     }));
 
     return {
-        channel: rule.slack.channel,
+        channel: DEV ? 'support_logs_test' : rule.slack.channel,
         "attachments": [
             {
                 "title": "Development Support",
@@ -37,7 +39,7 @@ class TypeFormCtrl extends ExpressController {
 
     // todo: need fix here
     async submitFormToSuppLog(submissionID, canSubmitToSlack = true) {
-        let promises = Promise.resolve();
+        let submission = null;
         const results = {
             hasError: false,
             errorMessage: ""
@@ -46,7 +48,6 @@ class TypeFormCtrl extends ExpressController {
         const parsedResp = JSON.parse(resp);
 
         if (parsedResp.responseCode != 200) {
-            console.log(`Error: "${parsedResp.message}"`);
             results.hasError = true;
             results.errorMessage = `Error: "${parsedResp.message}"`;
         } else {
@@ -58,15 +59,18 @@ class TypeFormCtrl extends ExpressController {
                 formRule = getFormRule(parsedForm);
                 newRow = {
                     range: formRule.sheet,
-                    rows: [applySheetRule(formRule.rule, parsedForm)],
-                    name: applySheetRule([69], parsedForm)[0]
+                    rows: [applySheetRule(formRule.rule, parsedForm)]
                 };
+
+                results.username = applySheetRule([69], parsedForm)[0];
+                results.sheet = formRule.sheet;
             } catch (e) {
                 results.hasError = true;
                 results.errorMessage = "Error: Cannot parse submission\n" + e;
             }
 
             if(newRow) {
+                console.log(newRow);
                 try {
                     if (canSubmitToSlack && formRule.slack) {
                         await this.slackBot.notify(formatMessageForSlackBot(parsedForm, formRule), {webHookUrl: formRule.slack.webHookUrl});
@@ -83,60 +87,55 @@ class TypeFormCtrl extends ExpressController {
                     results.errorMessage = "Error: Cannot sent submission to \"Support Logs\"\n" + e;
                 }
             }
-
-            // todo: upsert data
-            // Submission.find({}).then(items => {
-            //     res.json(items);
-            //     res.status(200).end();
-            // }).catch(err => {
-            //     throw new Error("get all form items failed!\n" + err);
-            // });
         }
 
-        return promises;
+        try {
+            submission = Submission
+                .findOneAndUpdate({submissionID}, {
+                    date: Date.now(),
+                    date_display: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'),
+                    submissionID,
+                    ...results
+                }, {upsert: true})
+                .lean(true);
+        } catch (e) {
+            submission = Submission
+                .create({
+                    date: Date.now(),
+                    date_display: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'),
+                    submissionID,
+                    ...results
+                })
+                .lean(true);
+        }
+
+        return Promise.resolve(submission);
+    }
+
+    getAllSubmissions() {
+        return Submission.find({});
     }
 
     @post()
     async post(req, res) {
         const {fields} = await parseRequest(req);
 
-        let results = {
-            hasError: false
-        };
+        const result = this.submitFormToSuppLog(fields.submissionID, true);
 
-        try {
-            const [newRow, promiseResult] = await this.submitFormToSuppLog(fields.submissionID);
-            results.sheet = newRow.range;
-            results.name = newRow.name
-        } catch (e) {
-            results.hasError = true;
-            results.errorMessage = e;
-        }
-
-        let data = new Submission(Object.assign(
-            {
-                date_display: moment().tz("America/New_York").format('MM/DD/YYYY @ HH:MM z'),
-                created_date: Date.now(),
-                updated_date: Date.now(),
-            },
-            fields,
-            results
-        ));
-
-        data.save().then(() => {
-            res.json({fields: fields});
-            res.status(200).end();
-        });
+        res.json({fields: result});
+        res.status(200).end();
     }
 
     @get('/submitted-forms')
-    getSubmittedForms(req, res) {
-        Submission.find({}).then(items => {
-            res.json(items);
+    async getSubmittedForms(req, res) {
+        try {
+            const submissions = await this.getAllSubmissions();
+
+            res.json({submissions});
             res.status(200).end();
-        }).catch(err => {
-            throw new Error("get all form items failed!\n" + err);
-        });
+        } catch (e) {
+            res.status(500).end();
+        }
     }
 
     @get('/update-submissions')
@@ -144,12 +143,11 @@ class TypeFormCtrl extends ExpressController {
         const subIDs = req.query.ids.split(",");
 
         try {
-            const promises = await Promise.all(subIDs.map(subID => this.submitFormToSuppLog(subID)));
-
+            await Promise.all(subIDs.map(subID => this.submitFormToSuppLog(subID)));
+            const submissions = await this.getAllSubmissions();
+            res.json({submissions});
             res.status(200).end();
         } catch (e) {
-            console.log(e);
-
             res.status(500).end();
         }
     }
