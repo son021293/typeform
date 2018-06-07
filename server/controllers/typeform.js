@@ -7,7 +7,7 @@ import {formatText, parseRequest} from "../libs/utils";
 import {controller, post, get, ExpressController} from "../libs/express";
 import {applySheetRule, applySheetRuleForSlack, getFormRule} from "./sheets-rules";
 
-const DEV = true;
+const DEV = false;
 
 export function formatMessageForSlackBot(parsedForm, rule) {
     const filterredQuestions = applySheetRuleForSlack(rule.slack.questions, parsedForm).map(q => ({
