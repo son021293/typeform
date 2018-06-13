@@ -2,10 +2,9 @@ import {Jotform} from "./server/libs/jotform";
 import {applySheetRule, applySheetRuleForSlack, getFormRule} from "./server/controllers/sheets-rules";
 import {formatMessageForSlackBot} from "./server/controllers/typeform";
 import {GoogleAuth, SpreadSheet} from "./server/libs/google-apis";
-import {client_email, private_key} from "./client-key";
-import {dbURL, scopes, sheetId, webHookUrl} from "./config";
+import {client_email, private_key} from "./config/client-key";
+import {dbURL, scopes, sheetId, webHookUrl} from "./config/config";
 import {Submission} from "./server/model/submission";
-import {formData} from "./form-data";
 import mongoose from "mongoose";
 import {SlackBot} from "./server/libs/slack";
 
@@ -16,7 +15,7 @@ let form = new Jotform('793e8de2ec7fa2e74798cfe280c06fe1');
     const sheet = new SpreadSheet({auth: googleAuth, spreadsheetId: sheetId});
 
     // A issue
-    const resp = await form.getSubmission('4041339368496356388');
+    // const resp = await form.getSubmission('4041339368496356388');
     // B urgent
     // const resp = await form.getSubmission('4041279918494677813');
     // 'C' Integration Troubleshooting

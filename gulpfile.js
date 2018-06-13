@@ -3,6 +3,24 @@ const gulp = require("gulp");
 const spawn = require('child_process').spawn;
 const exec = require('child_process').exec;
 
+const startServer = () =>{
+    nodemon({
+        script:"server/index.js",
+        ext:"js",
+        exec: "babel-node",
+        ignore:[
+            ".idea/",
+            ".git/",
+            "gulpfile.js",
+            "client/",
+            "dev/assets",
+            "node_modules/"
+        ],
+        env:{'NODE_ENV': 'development'}
+    })
+   // spawn('node', ["dev/server.js"], { stdio: 'inherit' });
+};
+
 const stylusCompiler =  {
     watch: (desk) =>{
         require("./compile-stylus").createCompiler(desk).watch();

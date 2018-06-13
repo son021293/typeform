@@ -7,8 +7,8 @@ import TypeFormCtrl from "./controllers/typeform";
 import {GoogleAuth} from "./libs/google-apis";
 import {bootstrapExpressApp} from "./libs/express";
 
-import {client_email, private_key} from "../client-key.json";
-import {port, sheetId, scopes, webHookUrl, jotformApiKey, dbURL} from "../config.json";
+import {client_email, private_key} from "../config/client-key.json";
+import {port, sheetId, scopes, webHookUrl, jotformApiKey, dbURL} from "../config/config.json";
 
 function initServer() {
     mongoose.connect(dbURL);
