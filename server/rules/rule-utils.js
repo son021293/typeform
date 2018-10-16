@@ -1,5 +1,10 @@
 import _ from "lodash";
+import TurndownService from "turndown";
+
 import {formatText} from "../libs/utils";
+
+
+const turndownService = new TurndownService();
 
 export function getDateObjectAnswer(question) {
     return function (form) {
@@ -20,9 +25,23 @@ export function genCurrentDateTime(question, moreDay = 0) {
     }
 }
 
+export function getLink(question) {
+    return function (form) {
+        return {
+            text: form[question].text,
+            answer: encodeURI(form[question].answer)
+        };
+    }
+}
+
 function applyRule(rule, form) {
     if(_.isNumber(rule)) {
-        return form[rule];
+        return form[rule].type == "control_textarea"
+            ? {
+                ...form[rule],
+                answer: turndownService.turndown(form[rule].answer)
+            }
+            : form[rule];
     }
     if(_.isFunction(rule)) {
         return rule(form);

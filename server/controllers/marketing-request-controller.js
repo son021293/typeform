@@ -8,8 +8,7 @@ import {controller, post, get, ExpressController} from "../libs/express";
 import {applySheetRule, applySheetRuleForSlack} from "../rules/rule-utils";
 import {MarketingRequestRules} from "../rules/marketing-request-rules";
 
-
-const DEV = false;
+const DEV = process.env.NODE_ENV == "development";
 
 export function formatMessageForSlackBot(parsedForm, rule) {
     const filterredQuestions = applySheetRuleForSlack(rule.slack.questions, parsedForm).map(q => ({
@@ -19,9 +18,9 @@ export function formatMessageForSlackBot(parsedForm, rule) {
     }));
 
     return {
-        channel: DEV ? 'support_logs_test' : rule.slack.channel,
+        channel: rule.slack.channel,
         username: "MDR bot",
-        text: "<@sonvu>",
+        text: DEV ? "<@sonvu>" : "<@maneesha>",
         "attachments": [
             {
                 "title": "Development Support",
