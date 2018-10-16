@@ -12,3 +12,4 @@ const submissionSchema = new Schema({
 });
 
 export const Submission = mongoose.model("Submission", submissionSchema);
+export const MDRSubmission = mongoose.model("MDRSubmission", submissionSchema);

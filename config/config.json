@@ -1,6 +1,7 @@
 {
   "port": 9090,
-  "sheetId": "1hfYLDg6Ejz57czHywqzBdEjp_2eCop5cLFPa7hnaw00",
+  "SL_sheet_id": "1hfYLDg6Ejz57czHywqzBdEjp_2eCop5cLFPa7hnaw00",
+  "MCDR_sheet_id": "1NYUd4AHFp9jcliDdUKZ9PpiBaDnRxEahm5K40bS7gFE",
   "webHookUrl": "https://hooks.slack.com/services/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",
   "jotformApiKey": "793e8de2ec7fa2e74798cfe280c06fe1",
   "scopes": [

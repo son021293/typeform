@@ -3,12 +3,13 @@ import http from "http";
 import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
-import TypeFormCtrl from "./controllers/typeform";
+import SupportLogsCtrl from "./controllers/support-logs-controller";
+import MarketingRequestCtrl from "./controllers/marketing-request-controller";
 import {GoogleAuth} from "./libs/google-apis";
 import {bootstrapExpressApp} from "./libs/express";
 
 import {client_email, private_key} from "../config/client-key.json";
-import {port, sheetId, scopes, webHookUrl, jotformApiKey, dbURL} from "../config/config.json";
+import {port, SL_sheet_id, scopes, webHookUrl, jotformApiKey, dbURL, MCDR_sheet_id} from "../config/config.json";
 
 function initServer() {
     mongoose.connect(dbURL);
@@ -32,7 +33,8 @@ function initServer() {
         });
 
         bootstrapExpressApp(httpApp, [
-            new TypeFormCtrl({googleAuth, sheetId, webHookUrl, jotformApiKey})
+            new SupportLogsCtrl({googleAuth, sheetId: SL_sheet_id, webHookUrl, jotformApiKey}),
+            new MarketingRequestCtrl({googleAuth, sheetId: MCDR_sheet_id, webHookUrl, jotformApiKey}),
         ]);
 
         const server = http.createServer(httpApp);

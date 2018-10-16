@@ -4,7 +4,7 @@
   "description": "Testing",
   "scripts": {
     "dev": "gulp dev",
-    "start": "nodemon server/index.js --exec babel-node --watch server",
+    "start": "export NODE_ENV=development && nodemon server/index.js --exec babel-node --watch server ",
     "wp": "webpack --watch",
     "test": "babel-node test.js",
     "build": "babel ./server -d dist"

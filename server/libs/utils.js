@@ -15,4 +15,7 @@ export function parseRequest(request) {
     })
 }
 
-export const formatText = (text) => _.unescape(("" + text).replace(/&#039;/g, "&#39;"));
+export const formatText = (text) => {
+    const res = typeof text == "object" ? _.map(text, v => v).join("\n") : text;
+    return _.unescape(("" + res).replace(/&#039;/g, "&#39;"))
+};
