@@ -1,4 +1,5 @@
 import _ from "lodash";
+import moment from "moment";
 import TurndownService from "turndown";
 
 import {formatText} from "../libs/utils";
@@ -39,7 +40,7 @@ function applyRule(rule, form) {
         return form[rule].type == "control_textarea"
             ? {
                 ...form[rule],
-                answer: turndownService.turndown(form[rule].answer)
+                answer: turndownService.turndown(form[rule].answer || "")
             }
             : form[rule];
     }

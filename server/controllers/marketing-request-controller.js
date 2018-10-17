@@ -78,7 +78,6 @@ class MarketingRequestCtrl extends ExpressController {
                         await this.slackBot.notify(formatMessageForSlackBot(parsedForm, formRule), {webHookUrl: formRule.slack.webHookUrl});
                     }
                 } catch (e) {
-                    console.log(e);
                     results.hasError = true;
                     results.errorMessage = "Error: Cannot notify to Slack\n" + e;
                 }
@@ -87,7 +86,7 @@ class MarketingRequestCtrl extends ExpressController {
                     await this.sheet.insertRows(newRow);
                 } catch (e) {
                     results.hasError = true;
-                    results.errorMessage = "Error: Cannot sent submission to \"Support Logs\"\n" + e;
+                    results.errorMessage = "Error: Cannot sent submission to \"Marketing Content Design Requests\"\n" + e;
                 }
             }
         }
